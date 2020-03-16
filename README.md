@@ -45,5 +45,5 @@ developing.script/developing.js https://127.0.0.1:9000/index.js
 
 ### 访问开发工具
 
-访问 https://iot.cloud.tencent.com/h5panel/developing?productId=${productId}，可看到渲染出来的 H5 面板。
+访问 https://iot.cloud.tencent.com/h5panel/developing?productId=${productId} ，可看到渲染出来的 H5 面板。
 
