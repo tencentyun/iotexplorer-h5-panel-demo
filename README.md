@@ -33,8 +33,6 @@ H5面板框架会渲染一个 id="app" 的容器给您用于渲染，并且 H5 S
 
 `https://iot.cloud.tencent.com/h5panel/developing?productId=${productId}&deviceName={yourRealDeviceDeviceId}`
 
-> 
-
 ## Demo
 
 ### 启动
