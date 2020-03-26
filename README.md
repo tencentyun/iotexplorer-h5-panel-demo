@@ -23,7 +23,17 @@ H5面板框架会渲染一个 id="app" 的容器给您用于渲染，并且 H5 S
 
 通过浏览器或"微信开发者工具 - 公众号页面调试"来访问H5面板开发模式，地址为：`https://iot.cloud.tencent.com/h5panel/developing?productId=${productId}`。
 
-> 开发模式需要用到您的腾讯云登录态，并会用您腾讯云的 Uin + OwnerUin 注册一个新的腾讯连连用户，并会帮您初始化一个虚拟家庭及一个用于调试的设备，让您无需关注这背后的设备绑定、家庭等逻辑，而专注于面板的开发 
+> * 开发模式需要用到您的腾讯云登录态，并会用您腾讯云的 Uin + OwnerUin 注册一个新的腾讯连连用户，并会帮您初始化一个虚拟家庭及一个用于调试的设备，让您无需关注这背后的设备绑定、家庭等逻辑，而专注于面板的开发
+> * 必须使用对该产品有操作权限的腾讯云账号登录才可以对此产品进行开发
+> * 由于微信和QQ侧限制，H5调试时的腾讯云登录不支持 QQ/微信登陆，您可以使用邮箱、子用户或公众号方式登录。
+
+### 真实设备调试
+
+在原url上，多传个需要调试的真实设备 deviceName 即可，如：
+
+`https://iot.cloud.tencent.com/h5panel/developing?productId=${productId}&deviceName={yourRealDeviceDeviceId}`
+
+> 
 
 ## Demo
 
