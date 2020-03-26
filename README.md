@@ -33,6 +33,10 @@ H5面板框架会渲染一个 id="app" 的容器给您用于渲染，并且 H5 S
 
 `https://iot.cloud.tencent.com/h5panel/developing?productId=${productId}&deviceName={yourRealDeviceDeviceId}`
 
+> 注意事项：
+> * 使用真实设备调试时，会自动将该设备绑定到您的调试用户的家庭下，同时会解除该设备原来的绑定关系
+> * “已发布” 状态的产品不支持真实设备调试，因为存在将真实用户正在使用的设备踢除绑定关系的风险。
+
 ## Demo
 
 ### 启动
