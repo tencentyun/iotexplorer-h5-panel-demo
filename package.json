@@ -4,7 +4,8 @@
   "description": "腾讯连连自定义h5面板demo",
   "main": "index.js",
   "scripts": {
-    "dev": "node_modules/.bin/webpack-dev-server --config webpack/webpack.config.js --env.mode=development --watch"
+    "dev": "node_modules/.bin/webpack-dev-server --config webpack/webpack.config.js --env.mode=development --watch",
+    "release": "node_modules/.bin/webpack --config webpack/webpack.config.js --env.mode=production"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "qcloud-iotexplorer-h5-panel-sdk": "^1.0.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-rangeslider": "^2.2.0"
+    "react-rangeslider": "^2.2.0",
+    "react-router-dom": "^5.1.2"
   }
 }

@@ -13,7 +13,7 @@ module.exports = (env, argv) => {
   return {
     name: 'iot-explorer-h5-panel-sdk-demo',
     mode,
-    entry: path.join(srcPath, '/index.jsx'),
+    entry: path.join(srcPath, '/app.jsx'),
     output: {
       path: distPath,
       filename: 'index.js',

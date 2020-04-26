@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
+// import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
+import sdk from '../../../iot-explorer-h5-panel/sdk/src';
 import classNames from 'classnames';
-import './style.less';
-import { NumberPanelControl } from './components/NumberPanelControl';
-import { EnumPanelControl } from './components/EnumPanelControl';
+import { NumberPanelControl } from '../components/NumberPanelControl';
+import { EnumPanelControl } from '../components/EnumPanelControl';
 
 console.log('sdk', sdk);
 
