@@ -68,6 +68,8 @@ export function DevicePanel() {
     visible: false,
     templateId: '',
   });
+  const [offlineModalVisible, setOfflineModalVisible] = useState(false);
+
 
   const onControlDeviceData = (id, value) => sdk.controlDeviceData({ [id]: value });
 
@@ -96,6 +98,17 @@ export function DevicePanel() {
       }
     }
   };
+
+  const offline = sdk.deviceStatus === 0;
+  //离线弹窗
+  useEffect(() => {
+    if (offline && !offlineModalVisible) {
+      sdk.offlineTip.open();
+    }else{
+      sdk.offlineTip.close();
+    }
+  }, [offline]);
+  
 
   useEffect(() => {
     sdk.setShareConfig({
