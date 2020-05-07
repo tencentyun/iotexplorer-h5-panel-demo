@@ -1,230 +1,204 @@
-import React, { useEffect, useRef, useState, useReducer } from 'react';
-// import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
-import sdk, { DeviceAdapter } from '../../../iot-explorer-h5-panel/sdk/src';
+import React, { useEffect, useState, useReducer } from 'react';
+import sdk from '../../../sdk/src';
 import classNames from 'classnames';
-import { DemoDeviceAdapter } from './DemoDeviceAdapter';
 
-console.log('sdk', sdk, DeviceAdapter);
+import { DemoBluetoothDeviceAdapter } from './DemoBluetoothDeviceAdapter'
 
 const blueToothAdapter = sdk.blueToothAdapter;
-
-blueToothAdapter.addAdapter(DemoDeviceAdapter);
+blueToothAdapter.addAdapter(DemoBluetoothDeviceAdapter);
 
 function reducer(state, action) {
-	const { type, payload } = action;
+    const { type, payload } = action;
 
-	switch (type) {
-		case 'startSearch':
-			return {
-				...state,
-				searching: true,
-			};
-		case 'stopSearch':
-			return {
-				...state,
-				searching: false,
-			};
-		case 'onFoundDevice':
-			return {
-				...state,
-				devices: payload.devices,
-			};
-		case 'startConnect':
-			return {
-				...state,
-				connecting: true,
-			};
-		case 'connectSuccess':
-			return {
-				...state,
-				connectDeviceInfo: {
-					...state.connectDeviceInfo,
-					...payload,
-				},
-			};
-		case 'onMessage':
-			return {
-				...state,
-				connectDeviceInfo: {
-					...state.connectDeviceInfo,
-					temperature: payload.data,
-					timestamp: payload.timestamp,
-				},
-			};
-		case 'disconnect':
-			return {
-				...state,
-				connectDeviceInfo: {
-					...state.connectDeviceInfo,
-					isConnect: false,
-				},
-			};
-	}
+    switch (type) {
+        case 'startSearch':
+            return {
+                ...state,
+                devices: [],
+                findError: false,
+                searching: true,
+                connecting: false,
+                msg: '正在搜索设备...'
+            };
+        case 'stopSearch':
+            return {
+                ...state,
+                findError: false,
+                searching: false,
+                connecting: false,
+            };
+        case 'onFoundDevice':
+            return {
+                ...state,
+                findError: false,
+                connecting: false,
+                devices: payload.devices,
+            };
+        case 'findError':
+            return {
+                ...state,
+                findError: true,
+                connecting: false,
+                msg: `发现错误，详细信息为：${payload.err.errCode}:${payload.err.msg}`
+            };
+        case 'startConnect':
+            return {
+                ...state,
+                findError: false,
+                connecting: true,
+                msg: '连接中...'
+            };
+        case 'connectSuccess':
+            return {
+                ...state,
+                findError: false,
+                connecting: false,
+                connectDeviceInfo: {
+                    ...state.connectDeviceInfo,
+                    ...payload,
+                },
+                msg: '连接成功'
+            };
+        case 'onMessage':
+            return {
+                ...state,
+                connectDeviceInfo: {
+                    ...state.connectDeviceInfo,
+                    temperature: payload.data,
+                    timestamp: payload.timestamp,
+                },
+            };
+        case 'disconnect':
+            return {
+                ...state,
+                connectDeviceInfo: {
+                    ...state.connectDeviceInfo,
+                    isConnect: false,
+                },
+                msg: '断开连接'
+            };
+    }
 
-	return state;
+    return state;
 }
 
+const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
 export function BluetoothSearch() {
-	const [state, dispatch] = useReducer(reducer, {
-		devices: [],
-		searching: false,
-		connecting: false,
-		connectDeviceInfo: null,
-	});
-	// const [devices, setDevices] = useState([]);
-	// const [searching, setSearching] = useState(false);
-	// const [connectDeviceInfo, setConnectDeviceInfo] = useState(null);
-	// const onMsgRef = useRef(({
-	// 	type,
-	// 	data,
-	// 	dataReported,
-	// 	timestamp,
-	// }) => {
-	// 	setConnectDeviceInfo({
-	// 		...connectDeviceInfo,
-	// 		temperature: data,
-	// 		timestamp,
-	// 	})
-	// });
-	// const onDisconnectRef = useRef(() => {
-	// 	setConnectDeviceInfo({
-	// 		...connectDeviceInfo,
-	// 		isConnect: false,
-	// 	});
-	// });
+    console.log('sdk', sdk);
+    const [state, dispatch] = useReducer(reducer, {
+        devices: [],
+        searching: false,
+        connecting: false,
+        connectDeviceInfo: null,
+    });
 
-	const startSearch = async () => {
-		dispatch({ type: 'startSearch' });
+    const startSearch = async () => {
+        dispatch({ type: 'startSearch' });
 
-		try {
-			await blueToothAdapter.init();
+        try {
+            await blueToothAdapter.init();
 
-			await blueToothAdapter.startSearch({
-				onError: err => {
-					console.error('search on error', err);
-					dispatch({ type: 'stopSearch' });
-				},
-				onSearch: devices => {
-					dispatch({ type: 'onFoundDevice', payload: { devices } });
-				},
-			});
-		} catch (err) {
-			console.error('start search fail', err);
-			dispatch({ type: 'stopSearch' });
-		}
-	};
+            await blueToothAdapter.startSearch({
+                onError: err => {
+                    console.error('search on error', err);
+                    dispatch({ type: 'findError', payload: { err } });
+                },
+                onSearch: devices => {
+                    dispatch({ type: 'onFoundDevice', payload: { devices } });
+                },
+            });
+        } catch (err) {
+            console.error('start search fail', err);
+            dispatch({ type: 'findError', payload: { err } });
+        }
+    };
 
-	const reconnect = async () => {
-		try {
-			await doConnect(state.connectDeviceInfo.deviceInfo);
-		} catch (err) {
-			console.error(err);
-		}
-	};
 
-	const doConnect = async (deviceInfo) => {
-		dispatch({ type: 'startConnect' });
+    const doConnect = async (deviceInfo) => {
+        dispatch({ type: 'startConnect' });
 
-		const deviceAdapter = await blueToothAdapter.connectDevice({
-			...deviceInfo,
-			productId: sdk.productInfo.ProductId,
-			// productId: '0V9XZQ6WT5',
-		});
+        const deviceAdapter = await blueToothAdapter.connectDevice({
+            ...deviceInfo,
+            productId: sdk.productInfo.ProductId,
+            // productId: '0V9XZQ6WT5',
+        });
 
-		dispatch({
-			type: 'connectSuccess',
-			payload: {
-				deviceInfo,
-				explorerDeviceId: deviceAdapter.explorerDeviceId,
-				isConnect: true,
-				name: deviceInfo.name,
-			},
-		});
+        dispatch({
+            type: 'connectSuccess',
+            payload: {
+                deviceInfo,
+                explorerDeviceId: deviceAdapter.explorerDeviceId,
+                isConnect: true,
+                name: deviceInfo.name,
+            },
+        });
 
-		deviceAdapter
-			.on('message', ({
-				type,
-				data,
-				dataReported,
-				timestamp,
-			}) => {
-				dispatch({
-					type: 'onMessage',
-					payload: {
-						type,
-						data,
-						dataReported,
-						timestamp,
-					},
-				});
-			})
-			.on('disconnect', () => dispatch({ type: 'disconnect' }));
-	};
+        deviceAdapter
+            .on('message', ({
+                type,
+                data,
+                dataReported,
+                timestamp,
+            }) => {
+                dispatch({
+                    type: 'onMessage',
+                    payload: {
+                        type,
+                        data,
+                        dataReported,
+                        timestamp,
+                    },
+                });
+            })
+            .on('disconnect', () => dispatch({ type: 'disconnect' }));
+    };
 
-	const connect = async (deviceInfo) => {
-		try {
-			await blueToothAdapter.stopSearch();
+    const connect = async (deviceInfo) => {
+        try {
+            await blueToothAdapter.stopSearch();
 
-			dispatch({ type: 'stopSearch' });
+            dispatch({ type: 'stopSearch' });
 
-			await doConnect(deviceInfo);
-		} catch (err) {
-			console.error(err);
-		}
-	};
+            await doConnect(deviceInfo);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
-	return (
-		<>
-			<button onClick={startSearch}>开始搜索设备</button>
-			{state.searching && (
-				<div>
-					搜索中...
-				</div>
-			)}
-			{state.connecting && (
-				<div>
-					连接中...
-				</div>
-			)}
-			{state.devices.map(device => (
-				<div key={device.deviceName}>
-					<div>
-						设备名: {device.name}
-					</div>
-					<div>
-						设备标识: {device.deviceName}
-					</div>
+    return (
+        <div className="bluetooth-search-container">
+            <button className="btn btn-primary" onClick={startSearch}>开始搜索设备</button>
+            <div className="bluetooth-search-item-list" style={{ minHeight: `${windowHeight}px` }}>
+                <div className={classNames("panel-status", {
+                    "loading": state.searching,
+                    "error": state.findError
+                })}>
+                    <div className="searching-txt"> {state.msg}</div>
+                </div>
 
-					<button onClick={() => connect(device)}>连接</button>
-				</div>
-			))}
-
-			{state.connectDeviceInfo && (
-				<>
-					{state.connectDeviceInfo ? (
-						<div>当前已连接</div>
-					) : (
-						<div>设备已断开，
-							<button onClick={reconnect}>重连</button>
-						</div>
-					)}
-
-					<div>
-						设备名称: {state.connectDeviceInfo.name}
-					</div>
-
-					<div>
-						explorer设备id: {state.connectDeviceInfo.explorerDeviceId}
-					</div>
-
-					<div>
-						收到温度：{state.connectDeviceInfo.temperature}
-					</div>
-					<div>
-						上报温度：{state.connectDeviceInfo.timestamp}
-					</div>
-				</>
-			)}
-		</>
-	)
+                <div className="search-result">
+                    <div className="search-title">已发现如下设备:</div>
+                    <div className="search-body"></div>
+                    <div className="search-row">
+                        {
+                            state.devices.map(item => (
+                                <div className="search-item">
+                                    <div className="item-name">
+                                        {item.name}
+                                    </div>
+                                    <div
+                                        className="link-btn need-hover"
+                                        onClick={() => connect(item)}
+                                    >
+                                        连接
+                                     </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }

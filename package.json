@@ -1,22 +1,41 @@
 {
-  "name": "iotexplorer-h5-panel-demo",
-  "version": "1.0.0",
-  "description": "腾讯连连自定义h5面板demo",
-  "main": "index.js",
+  "name": "sdk-demo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/classnames": "^2.2.9",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.11",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "classnames": "^2.2.6",
+    "install": "^0.13.0",
+    "npm": "^6.14.2",
+    "qcloud-iotexplorer-appdev-sdk": "0.0.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-rangeslider": "^2.2.0",
+    "react-router-dom": "^5.1.2"
+  },
   "scripts": {
     "dev": "node_modules/.bin/webpack-dev-server --config webpack/webpack.config.js --env.mode=development --watch",
     "release": "node_modules/.bin/webpack --config webpack/webpack.config.js --env.mode=production"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tencentyun/iotexplorer-h5-panel-demo.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "author": "xiaoyuze88",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tencentyun/iotexplorer-h5-panel-demo/issues"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
-  "homepage": "https://github.com/tencentyun/iotexplorer-h5-panel-demo#readme",
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
@@ -36,19 +55,5 @@
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
-  },
-  "dependencies": {
-    "@types/classnames": "^2.2.9",
-    "@types/jest": "^24.0.23",
-    "@types/node": "^12.12.11",
-    "@types/react": "^16.9.11",
-    "@types/react-dom": "^16.9.4",
-    "classnames": "^2.2.6",
-    "install": "^0.13.0",
-    "qcloud-iotexplorer-h5-panel-sdk": "^1.0.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-rangeslider": "^2.2.0",
-    "react-router-dom": "^5.1.2"
   }
 }

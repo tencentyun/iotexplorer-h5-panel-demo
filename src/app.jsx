@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-	HashRouter as Router,
+	BrowserRouter as Router,
 	Switch,
 	Route,
 	Link
 } from "react-router-dom";
 import { DevicePanel } from './DevicePanel';
-import { BluetoothSearch } from './BluetoothSearch';
-import { Index } from './Index';
+import { BluetoothSearch } from './BluetoothSearch/BluetoothSearch';
+import { Index } from './index';
 
 import './style.less';
 
@@ -23,15 +23,15 @@ function App() {
 					{/*	<About/>*/}
 					{/*</Route>*/}
 					{/*<Route path="/users">*/}
-					{/*	<Users/>*/}
-					{/*</Route>*/}
-					<Route path="/panel">
-						<DevicePanel/>
-					</Route>
-					<Route path="/bluetooth-search">
+					{/*	<Users/>xww*/}
+					{/*</Route>*/}	
+                    <Route path="/h5panel/developing/bluetooth-search">
 						<BluetoothSearch/>
 					</Route>
-					<Route path="/">
+					<Route path="/h5panel/developing">
+						<DevicePanel/>
+					</Route>
+					<Route path="/h5panel">
 						<Index/>
 					</Route>
 				</Switch>

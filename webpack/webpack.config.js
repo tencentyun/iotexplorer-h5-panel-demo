@@ -7,8 +7,13 @@ module.exports = (env, argv) => {
 
   const isDevMode = mode === 'development';
 
+  console.log('mode', mode)
+
   const srcPath = path.join(__dirname, '../src');
   const distPath = path.join(__dirname, '../dist', isDevMode ? '/debug' : '/release');
+
+  console.log('srcPath', srcPath);
+  console.log('distPath', distPath);
 
   return {
     name: 'iot-explorer-h5-panel-sdk-demo',
@@ -23,14 +28,16 @@ module.exports = (env, argv) => {
       contentBase: distPath,
       compress: true,
       port: 9000,
-      disableHostCheck: true,
+      disableHostCheck: true, //  新增该配置项
+      // hot: true,
       https: true,
     },
     module: {
+      // 现在的 babel 配置已经很简单了，我们只需要加入默认的配置即可
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: /node_modules|vendors|qcloud-iotexplorer-h5-panel-sdk/,
+          exclude: /node_modules|vendors/,
           use: {
             loader: 'babel-loader',
             options: {
@@ -83,6 +90,7 @@ module.exports = (env, argv) => {
       ],
     },
     resolve: {
+      // 添加 jsx 后缀支持
       extensions: [".js", ".jsx", '.ts'],
     },
     devtool: "inline-source-map",
@@ -91,6 +99,24 @@ module.exports = (env, argv) => {
       new webpack.ProgressPlugin(),
       new CleanWebpackPlugin(),
       new webpack.HotModuleReplacementPlugin(),
+      // new CopyPlugin([
+      //   {
+      //     from: path.join(srcPath, '/project.config.json'),
+      //     to: path.join(distPath, '/project.config.json'),
+      //   },
+      //   {
+      //     from: path.join(srcPath, '/plugin/plugin.json'),
+      //     to: path.join(distPath, '/plugin'),
+      //   },
+      //   {
+      //     from: path.join(srcPath, '/doc'),
+      //     to: path.join(distPath, '/doc'),
+      //   },
+      //   {
+      //     from: path.join(srcPath, '/miniprogram'),
+      //     to: path.join(distPath, '/miniprogram'),
+      //   },
+      // ]),
     ],
   };
 };

@@ -3,26 +3,26 @@ body {
 }
 
 .panel-list {
-  position: relative;
-  z-index: 2;
-  padding: 20/2px 30/2px 0;
+  position        : relative;
+  z-index         : 2;
+  padding         : 20/2px 30/2px 0;
   background-color: rgb(99, 113, 132);
-  box-sizing: border-box;
+  box-sizing      : border-box;
 
   .panel-row {
     margin-bottom: 10/2px;
-    font-size: 0;
+    font-size    : 0;
 
     .panel-item {
-      background: rgba(0, 0, 0, 0.40);
-      border-radius: 10/2px;
-      display: inline-block;
-      width: 100%;
-      margin-right: 10/2px;
-      height: 108/2px;
-      color: #FFFFFF;
-      position: relative;
-      overflow: hidden;
+      background    : rgba(0, 0, 0, 0.40);
+      border-radius : 10/2px;
+      display       : inline-block;
+      width         : 100%;
+      margin-right  : 10/2px;
+      height        : 108/2px;
+      color         : #FFFFFF;
+      position      : relative;
+      overflow      : hidden;
       vertical-align: middle;
 
       &.disabled {
@@ -57,26 +57,26 @@ body {
 
           .panel-value {
             padding-right: 0;
-            text-align: right;
+            text-align   : right;
 
             .iot-switch {
-              display: inline-block;
-              position: relative;
-              width: 102/2px;
-              height: 62/2px;
-              border-radius: 40/2px;
+              display         : inline-block;
+              position        : relative;
+              width           : 102/2px;
+              height          : 62/2px;
+              border-radius   : 40/2px;
               background-color: #2d3034;
 
               &::after {
-                content: ' ';
-                position: absolute;
-                top: 5/2px;
-                left: 5/2px;
-                width: 52/2px;
-                height: 52/2px;
-                border-radius: 100%;
+                content         : ' ';
+                position        : absolute;
+                top             : 5/2px;
+                left            : 5/2px;
+                width           : 52/2px;
+                height          : 52/2px;
+                border-radius   : 100%;
                 background-color: #fff;
-                transition: all .2s;
+                transition      : all .2s;
               }
 
               &.checked {
@@ -92,9 +92,9 @@ body {
       }
 
       .panel-item-content {
-        width: 100%;
-        height: 100%;
-        padding: 30/2px;
+        width     : 100%;
+        height    : 100%;
+        padding   : 30/2px;
         box-sizing: border-box;
       }
 
@@ -103,61 +103,193 @@ body {
       }
 
       .panel-header {
-        display: flex;
+        display      : flex;
         margin-bottom: 20/2px;
-        width: 60%;
-        align-items: center;
+        width        : 60%;
+        align-items  : center;
 
         .panel-icon {
-          width: 48/2px;
-          height: 48/2px;
+          width         : 48/2px;
+          height        : 48/2px;
           vertical-align: middle;
         }
 
         .panel-name {
-          font-size: 32/2px;
+          font-size     : 32/2px;
           vertical-align: middle;
-          margin-left: 20/2px;
-          box-sizing: border-box;
+          margin-left   : 20/2px;
+          box-sizing    : border-box;
         }
 
         .panel-subtitle {
-          display: inline-block;
+          display       : inline-block;
           vertical-align: middle;
-          opacity: 0.3;
-          font-size: 26/2px;
-          margin-top: 4/2px;
-          color: #FFFFFF;
-          line-height: 39/2px;
-          margin-left: 20/2px;
+          opacity       : 0.3;
+          font-size     : 26/2px;
+          margin-top    : 4/2px;
+          color         : #FFFFFF;
+          line-height   : 39/2px;
+          margin-left   : 20/2px;
         }
       }
 
       .panel-value-container {
-        position: absolute;
-        right: 30/2px;
-        top: 30/2px;
-        width: 250/2px;
-        text-align: right;
+        position       : absolute;
+        right          : 30/2px;
+        top            : 30/2px;
+        width          : 250/2px;
+        text-align     : right;
         //padding-right: 35px;
-        min-height: 48/2px;
-        box-sizing: border-box;
+        min-height     : 48/2px;
+        box-sizing     : border-box;
 
         .panel-value {
-          max-width: 100%;
-          font-size: 32/2px;
+          max-width    : 100%;
+          font-size    : 32/2px;
           padding-right: 35/2px;
-          box-sizing: border-box;
+          box-sizing   : border-box;
         }
       }
     }
   }
 
   .divider {
-    margin-top: 20/2px;
+    margin-top   : 20/2px;
     margin-bottom: 20/2px;
-    height: 1px;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.30);
+    height       : 1px;
+    width        : 100%;
+    background   : rgba(0, 0, 0, 0.30);
+  }
+}
+
+.bluetooth-search-container .btn.btn-primary {
+  border    : 1px solid #0052d9;
+  background: #0052D9;
+  color     : #fff;
+}
+
+.bluetooth-search-container .btn {
+  position        : relative;
+  font-size       : 16px;
+  width           : 100%;
+  height          : 45px;
+  line-height     : 45px;
+  text-align      : center;
+  background-color: #fff;
+  border-radius   : 0;
+  border          : 1px solid #DDDDDD;
+  color           : #0052D9;
+}
+
+.bluetooth-search-container button {
+  position                   : relative;
+  display                    : block;
+  -webkit-box-sizing         : border-box;
+  box-sizing                 : border-box;
+  margin                     : 0;
+  padding                    : 0;
+  -webkit-tap-highlight-color: transparent;
+  color                      : inherit;
+  background-color           : inherit;
+}
+
+.bluetooth-search-container button::after {
+  width                   : 200%;
+  height                  : 200%;
+  position                : absolute;
+  top                     : 0;
+  left                    : 0;
+  border                  : none;
+  -webkit-transform       : scale(.5);
+  transform               : scale(.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin        : 0 0;
+  box-sizing              : border-box;
+  border-radius           : 10px;
+
+}
+
+.bluetooth-search-container {
+  background: rgb(99, 113, 132);
+  padding: 25px
+}
+
+.bluetooth-search-item-list {
+  margin-top: 30px;
+  width     : 100%;
+
+  .error {
+    color: #ff584c;
+  }
+
+  .searching-txt {
+    text-align : center;
+    line-height: 46rpx;
+  }
+
+  .search-result {
+    width     : 100%;
+    height    : 100%;
+    padding   : 24px 30px;
+    overflow  : hidden;
+    box-sizing: border-box;
+
+    .search-title {
+      font-weight: bold;
+      font-size  : 16px;
+      color      : #000000;
+    }
+
+    .search-body {
+      height    : 100%;
+      margin-top: 12px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+  }
+
+  .search-row {
+    display  : flex;
+    flex-wrap: wrap;
+
+    .item-name {
+      display       : inline-block;
+      font-size     : 26px;
+      color         : #000000;
+      max-width     : 80%;
+      margin-left   : 4px;
+      line-height   : 48px;
+      min-height    : 48px;
+      vertical-align: top;
+    }
+
+    .search-item {
+      position        : relative;
+      height          : 90px;
+      width           : 100%;
+      margin-bottom   : 20px;
+      box-sizing      : border-box;
+      background-color: rgba(0, 0, 0, 0.10);
+      border-radius   : 12px;
+      padding         : 10px;
+
+
+
+      .item-name {
+        display    : inline-block;
+        font-size  : 14px;
+        color      : #ffffff;
+        line-height: 70px;
+      }
+
+      .link-btn {
+        position   : absolute;
+        right      : 30px;
+        color      : #7cb342;
+        top        : 40%;
+        font-size  : 18px;
+        font-weight: bold;
+      }
+    }
   }
 }
