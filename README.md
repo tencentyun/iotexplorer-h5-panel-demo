@@ -48,7 +48,7 @@ H5面板框架会渲染一个 id="app" 的容器给您用于渲染，并且 H5 S
 2. 进入设备列表，长按需要调试的设备，从弹层中选择 "生成H5面板调试地址"，之后该调试地址将被复制到剪贴板，然后就可以通过浏览器访问该调试地址来进行真机面板调试。 
 
 ## 蓝牙设备
-
+参见[蓝牙设备文档](https://github.com/tencentyun/iotexplorer-h5-panel-demo/blob/master/BLUETOOTH-README.md)
 
 ## Demo
 
