@@ -7,32 +7,34 @@ import {
 	Link
 } from "react-router-dom";
 import { DevicePanel } from './DevicePanel';
-import { BluetoothSearch } from './BluetoothSearch/BluetoothSearch';
-import { Index } from './index';
+import { SearchPage, PanelPage, DemoBluetoothDeviceAdapter } from './BluetoothDemo';
+import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
+
+sdk.blueToothAdapter.addAdapter(DemoBluetoothDeviceAdapter);
 
 import './style.less';
 
 function App() {
+	const isBluetoothDevice = true;
+	const isDev = process.env.NODE_ENV !== 'production';
+
+	let basename = isDev ? '/h5panel/developing' : '/h5panel';
+
+	// 蓝牙的调试模式下路由需要加上 /live
+	if (isBluetoothDevice && isDev) {
+		basename += '/live';
+	}
+
 	return (
-		<Router>
+		<Router basename={basename}>
 			<div>
-				{/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
 				<Switch>
-					{/*<Route path="/about">*/}
-					{/*	<About/>*/}
-					{/*</Route>*/}
-					{/*<Route path="/users">*/}
-					{/*	<Users/>xww*/}
-					{/*</Route>*/}	
-                    <Route path="/h5panel/developing/bluetooth-search">
-						<BluetoothSearch/>
+					{/* 蓝牙搜索页 */}
+					<Route path="/bluetooth-search">
+						<SearchPage/>
 					</Route>
-					<Route path="/h5panel/developing">
+					<Route path="/">
 						<DevicePanel/>
-					</Route>
-					<Route path="/h5panel">
-						<Index/>
 					</Route>
 				</Switch>
 			</div>
