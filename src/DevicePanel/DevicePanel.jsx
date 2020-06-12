@@ -125,6 +125,43 @@ export function DevicePanel() {
       });
   }, []);
 
+  const showDeviceDetail = async () => {
+    const isConfirm = await sdk.tips.confirm('是否展示H5设备详情？');
+
+    if (isConfirm) {
+      await sdk.tips.alert('当前选择H5设备详情');
+
+      sdk.showDeviceDetail({
+        labelWidth: 120,
+        marginTop: 0,
+        extendItems: [
+          {
+            labelIcon: 'https://main.qcloudimg.com/raw/be1d876d55ec2479d384e17c94df0e69.svg',
+            label: '自定义菜单',
+            content: '自定义菜单内容（可选）',
+            onClick: () => console.log('点击自定义菜单'),
+          },
+        ],
+        extendButtons: [
+          {
+            text: '自定义按钮',
+            type: 'warning',
+            onClick: () => console.log('点击自定义按钮'),
+          },
+          {
+            text: '关闭设备详情',
+            type: '',
+            onClick: () => sdk.closeDeviceDetail(),
+          },
+        ],
+      });
+    } else {
+      await sdk.tips.alert('当前选择原生设备详情');
+
+      sdk.goDeviceDetailPage();
+    }
+  };
+
   return (
     <>
       <div className="panel-list" style={{ minHeight: `${windowHeight}px` }}>
@@ -200,7 +237,7 @@ export function DevicePanel() {
           <div className="panel-item">
             <div
               className="panel-item-content need-hover"
-              onClick={() => sdk.goDeviceDetailPage()}
+              onClick={() => showDeviceDetail()}
             >
               <div className="panel-header">
                 <div className="panel-name">
