@@ -10,6 +10,8 @@ import { DevicePanel } from './DevicePanel';
 import { SearchPage, PanelPage, DemoBluetoothDeviceAdapter } from './BluetoothDemo';
 import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
 
+window.sdk = sdk;
+
 sdk.blueToothAdapter.addAdapter(DemoBluetoothDeviceAdapter);
 
 import './style.less';

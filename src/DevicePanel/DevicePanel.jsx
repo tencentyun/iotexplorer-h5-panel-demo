@@ -134,6 +134,10 @@ export function DevicePanel() {
       sdk.showDeviceDetail({
         labelWidth: 120,
         marginTop: 0,
+        shareParams: {
+          a: 'a',
+          b: 'b',
+        },
         extendItems: [
           {
             labelIcon: 'https://main.qcloudimg.com/raw/be1d876d55ec2479d384e17c94df0e69.svg',
@@ -149,9 +153,16 @@ export function DevicePanel() {
             onClick: () => console.log('点击自定义按钮'),
           },
           {
+            text: '获取自定义分享参数',
+            onClick: async () => {
+              const shareParams = await sdk.getShareParams();
+              console.log('自定义分享参数: ', shareParams);
+            }
+          },
+          {
             text: '关闭设备详情',
             type: '',
-            onClick: () => sdk.closeDeviceDetail(),
+            onClick: () => sdk.hideDeviceDetail(),
           },
         ],
       });
