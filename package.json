@@ -11,7 +11,7 @@
     "classnames": "^2.2.6",
     "install": "^0.13.0",
     "npm": "^6.14.2",
-    "qcloud-iotexplorer-h5-panel-sdk": "^1.1.9",
+    "qcloud-iotexplorer-h5-panel-sdk": "^1.1.11",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-rangeslider": "^2.2.0",

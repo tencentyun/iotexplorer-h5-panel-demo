@@ -99,31 +99,45 @@ export function DevicePanel() {
       title: sdk.displayName,
     });
 
-    sdk.onWsControl(({ deviceId, deviceData }) => {
-        if (deviceId === sdk.deviceId) {
-          dispatch({
-            type: 'control',
-            payload: deviceData,
-          });
-        }
-      })
-      .onWsReport(({ deviceId, deviceData }) => {
-        if (deviceId === sdk.deviceId) {
-          dispatch({
-            type: 'report',
-            payload: deviceData,
-          });
-        }
-      })
-      .onWsStatusChange(({ deviceId, deviceStatus }) => {
-        if (deviceId === sdk.deviceId) {
-          dispatch({
-            type: 'status',
-            payload: deviceStatus,
-          });
-        }
-      });
+    const handleWsControl = ({ deviceId, deviceData }) => {
+      if (deviceId === sdk.deviceId) {
+        dispatch({
+          type: 'control',
+          payload: deviceData,
+        });
+      }
+    };
+
+    const handleWsReport = ({ deviceId, deviceData }) => {
+      if (deviceId === sdk.deviceId) {
+        dispatch({
+          type: 'report',
+          payload: deviceData,
+        });
+      }
+    };
+
+    const handleWsStatusChange = ({ deviceId, deviceStatus }) => {
+      if (deviceId === sdk.deviceId) {
+        dispatch({
+          type: 'status',
+          payload: deviceStatus,
+        });
+      }
+    };
+
+    sdk
+      .on('wsControl', handleWsControl)
+      .on('wsReport', handleWsReport)
+      .on('wsStatusChange', handleWsStatusChange);
+
+    return () => sdk
+      .off('wsControl', handleWsControl)
+      .off('wsReport', handleWsReport)
+      .off('wsStatusChange', handleWsStatusChange);
   }, []);
+
+
 
   const showDeviceDetail = async () => {
     const isConfirm = await sdk.tips.confirm('是否展示H5设备详情？');
@@ -134,10 +148,8 @@ export function DevicePanel() {
       sdk.showDeviceDetail({
         labelWidth: 120,
         marginTop: 0,
-        shareParams: {
-          a: 'a',
-          b: 'b',
-        },
+        shareParams:  'a'.repeat(233)
+        ,
         extendItems: [
           {
             labelIcon: 'https://main.qcloudimg.com/raw/be1d876d55ec2479d384e17c94df0e69.svg',
@@ -156,7 +168,7 @@ export function DevicePanel() {
             text: '获取自定义分享参数',
             onClick: async () => {
               const shareParams = await sdk.getShareParams();
-              console.log('自定义分享参数: ', shareParams);
+              alert(`自定义分享参数: ${JSON.stringify(shareParams)}`);
             }
           },
           {

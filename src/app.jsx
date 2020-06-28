@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import {
 	BrowserRouter as Router,
@@ -26,6 +26,13 @@ function App() {
 	if (isBluetoothDevice && isDev) {
 		basename += '/live';
 	}
+
+	useEffect(() => {
+		sdk.on('appShow', () => console.log('appShow'))
+			.on('appHide', () => console.log('appHide'))
+			.on('pageShow', () => console.log('pageShow'))
+			.on('pageHide', () => console.log('pageHide'));
+	}, []);
 
 	return (
 		<Router basename={basename}>
