@@ -58,7 +58,7 @@
 
 2. 设备适配器 deviceAdapter，它主要由厂商来实现，基类 DeviceAdapter 中实现了处理事件回调、连接设备等方法，而厂商则需要继承于基类来实现厂商自己设备的设备适配器，主要是处理搜索过程中的设备过滤、通信过程中的协议解析等。
 
-具体的蓝牙模块文档可以参考SDk中的[蓝牙模块章节](https://www.npmjs.com/package/qcloud-iotexplorer-h5-panel-sdk/v/1.1.1#%E8%93%9D%E7%89%99%E6%A8%A1%E5%9D%97)。
+具体的蓝牙模块文档可以参考SDk中的[蓝牙模块章节](https://www.npmjs.com/package/qcloud-iotexplorer-h5-panel-sdk#%E8%93%9D%E7%89%99%E6%A8%A1%E5%9D%97)。
 
 ### 设备适配器
 
