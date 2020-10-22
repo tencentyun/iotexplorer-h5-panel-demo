@@ -1,0 +1,53 @@
+.btn-group {
+  box-sizing: border-box;
+
+  &.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &.btn-layout-flex {
+    display: flex;
+
+    &.standalone {
+      padding: 24px 30px 0;
+    }
+
+    &.fixed-bottom {
+      padding: 8px 30px 16+34px;
+    }
+
+    .btn {
+      flex: 1;
+      margin-right: 30px;
+
+      &:last-of-type {
+        margin: 0;
+      }
+    }
+  }
+
+  &.btn-layout-vertical {
+    &.standalone {
+      padding: 24px 16px 0;
+    }
+
+    &.fixed-bottom {
+      padding: 8px 16px 16+34px;
+    }
+
+    .btn {
+      margin-bottom: 14px;
+
+      &:last-of-type {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.btn-group.confirm-btn-group {
+  padding: 0 30px;
+}

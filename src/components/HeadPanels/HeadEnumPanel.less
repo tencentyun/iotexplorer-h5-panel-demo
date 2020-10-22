@@ -1,0 +1,96 @@
+.head-enum-panel {
+  text-align: center;
+  margin-bottom: 84px;
+
+  .enum-value {
+    font-weight: 500;
+    font-size: 50px;
+    color: #000000;
+    padding-top: 88px;
+  }
+
+  .enum-name {
+    margin-top: 2px;
+    font-size: 18px;
+    color: #000000;
+    text-align: center;
+    line-height: 30px;
+  }
+
+  .enum-list {
+    text-align: left;
+    white-space: nowrap;
+    height: 70px;
+    margin-top: 51px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .enum-item {
+      position: relative;
+      white-space: normal;
+      display: inline-block;
+      width: 70px;
+      height: 70px;
+      text-align: center;
+      margin-right: 12px;
+      vertical-align: middle;
+      z-index: 1;
+      background-image: url('https://main.qcloudimg.com/raw/6a2f6a6784d19ff20ba9f9ead291fe76.svg');
+      background-size: 100%;
+      background-repeat: no-repeat;
+
+      .enum-item-content {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: #888888;
+        letter-spacing: 0;
+      }
+
+      &.need-hover.hover::before {
+        border-radius: 100%;
+      }
+
+      &:first-of-type {
+        margin-left: 24px;
+      }
+
+      &:last-of-type {
+        margin-right: 24px;
+      }
+
+      &.actived {
+        background-image: url('https://main.qcloudimg.com/raw/92510d5ab3d67d52e96159c83c1c49a1.svg');
+
+        .enum-item-content {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    .enum-value {
+      opacity: .5;
+    }
+
+    .enum-name {
+      opacity: .5;
+    }
+
+    .enum-list {
+      .enum-item {
+        &.actived {
+          background-image: url('https://main.qcloudimg.com/raw/c1b4843c20168a9b53ee8cf674be0361.svg');
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,111 @@
+.row {
+  display: flex;
+  margin: 12px -6px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  .explorer-h5-col__content {
+    height: 100%;
+  }
+}
+
+.col {
+  padding-left: 6px;
+  padding-right: 6px;
+  flex-grow: 1;
+  width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.explorer-h5-vertical {
+  &_top {
+    align-items: flex-start;
+  }
+
+  &_middle {
+    align-items: center;
+  }
+
+  &_bottom {
+    align-items: flex-end;
+  }
+
+  &_stretch {
+    align-items: stretch;
+  }
+}
+
+.explorer-h5-justify {
+  &_start {
+    align-items: flex-start;
+  }
+
+  &_end {
+    align-items: flex-end;
+  }
+
+  &_center {
+    align-items: center;
+  }
+
+  &_space-around {
+    align-items: space-around;
+  }
+
+  &_space-between {
+    align-items: space-between;
+  }
+}
+
+.col_span {
+  &-1 {
+    flex-grow: 0;
+    width: 1/12 * 100%;
+  }
+  &-2 {
+    flex-grow: 0;
+    width: 2/12 * 100%;
+  }
+  &-3 {
+    flex-grow: 0;
+    width: 3/12 * 100%;
+  }
+  &-4 {
+    flex-grow: 0;
+    width: 4/12 * 100%;
+  }
+  &-5 {
+    flex-grow: 0;
+    width: 5/12 * 100%;
+  }
+  &-6 {
+    flex-grow: 0;
+    width: 6/12 * 100%;
+  }
+  &-7 {
+    flex-grow: 0;
+    width: 7/12 * 100%;
+  }
+  &-8 {
+    flex-grow: 0;
+    width: 8/12 * 100%;
+  }
+  &-9 {
+    flex-grow: 0;
+    width: 9/12 * 100%;
+  }
+  &-10 {
+    flex-grow: 0;
+    width: 10/12 * 100%;
+  }
+  &-11 {
+    flex-grow: 0;
+    width: 11/12 * 100%;
+  }
+  &-12 {
+    flex-grow: 0;
+    width: 12/12 * 100%;
+  }
+}

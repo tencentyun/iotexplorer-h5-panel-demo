@@ -1,0 +1,103 @@
+.btn {
+  position: relative;
+  height: 40px;
+  line-height: 38px;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 20px;
+  overflow: hidden;
+  font-size: 16px;
+  border-width: 1px;
+  border-color: transparent;
+  border-style: solid;
+
+  &.standalone {
+    margin: 24px 16px 0;
+  }
+
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .btn-text {
+    vertical-align: middle;
+    font-size: 16px;
+  }
+
+  &.disabled {
+    background-image: none;
+    background-color: #D6D8DC;
+    color: #ffffff;
+    border-color: transparent;
+  }
+
+  &.btn-primary {
+    background-image: linear-gradient(135deg, #3D8BFF 0%, #0066FF 100%);
+    color: #ffffff;
+
+    &.reverse {
+      background-image: none;
+      background-color: #FFFFFF;
+      color: #0066FF;
+    }
+
+    &.transparent {
+      background-image: none;
+      background-color: transparent;
+      border-color: #0066FF;
+    }
+
+    &.disabled {
+      .disabled;
+    }
+  }
+
+  &.btn-danger {
+    background-image: linear-gradient(135deg, #FD8989 0%, #FA5151 100%);
+    color: #ffffff;
+
+    &.reverse {
+      background-image: none;
+      background-color: #FFFFFF;
+      color: #FA5151;
+    }
+
+    &.transparent {
+      background-image: none;
+      background-color: transparent;
+      border-color: #FA5151;
+    }
+
+    &.disabled {
+      .disabled;
+    }
+  }
+
+  &.btn-cancel {
+    background: #F3F3F5;
+    color: #0066FF;
+
+    &.disabled {
+      .disabled;
+    }
+  }
+
+  &.btn-link {
+    display: inline-block;
+    font-size: 14px;
+    color: #0066FF;
+    letter-spacing: 0;
+    line-height: 18px;
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+    vertical-align: middle;
+
+    &.link-hover {
+      color: lighten(#0066FF, 20%);
+    }
+  }
+}
