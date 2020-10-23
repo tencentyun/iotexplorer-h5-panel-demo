@@ -54,7 +54,7 @@ function PropertyCard({
       icon="create"
       title={name}
       desc={value}
-      onClick={onClick} 
+      onClick={onClick}
       disabled={disabled}
       direction={direction}
     />
@@ -62,12 +62,11 @@ function PropertyCard({
 }
 
 export function DevicePanel() {
-  const [state, {
-    onDeviceDataChange,
-    onDeviceStatusChange
-  }] = useDeviceData(sdk);
+  const [state, { onDeviceDataChange, onDeviceStatusChange }] = useDeviceData(
+    sdk
+  );
 
-  const isStandardBleDevice = sdk._productInfo.NetType === "ble";
+  const isStandardBleDevice = sdk.isStandardBleDevice;
   const [numberPanelInfo, setNumberPanelInfo] = useState({
     visible: false,
     templateId: "",
@@ -105,15 +104,15 @@ export function DevicePanel() {
     };
 
     sdk
-      .on('wsControl', handleWsControl)
-      .on('wsReport', handleWsReport)
-      .on('wsStatusChange', handleWsStatusChange);
+      .on("wsControl", handleWsControl)
+      .on("wsReport", handleWsReport)
+      .on("wsStatusChange", handleWsStatusChange);
 
     return () => {
       sdk
-        .off('wsControl', handleWsControl)
-        .off('wsReport', handleWsReport)
-        .off('wsStatusChange', handleWsStatusChange);
+        .off("wsControl", handleWsControl)
+        .off("wsReport", handleWsReport)
+        .off("wsStatusChange", handleWsStatusChange);
     };
   }, []);
 
@@ -124,31 +123,35 @@ export function DevicePanel() {
         const upgradeInfo = await sdk.checkFirmwareUpgrade({
           silent: false, // 设置为 true 则只检查，不弹出提示
         });
-        console.log('firmware upgrade info', upgradeInfo);
+        console.log("firmware upgrade info", upgradeInfo);
       } catch (err) {
-        console.error('checkFirmwareUpgrade fail', err);
+        console.error("checkFirmwareUpgrade fail", err);
       }
     };
     doCheckFirmwareUpgrade();
   }, []);
-  
-  const onControlDeviceData = (id, value) => sdk.controlDeviceData({ [id]: value });
+
+  const onControlDeviceData = (id, value) =>
+    sdk.controlDeviceData({ [id]: value });
 
   const onControlPanelItem = (item) => {
-    console.log('onControlPanelItem', item);
+    console.log("onControlPanelItem", item);
 
-    const { id, define: { type } } = item;
+    const {
+      id,
+      define: { type },
+    } = item;
 
     switch (type) {
-      case 'int':
-      case 'float':
+      case "int":
+      case "float":
         setNumberPanelInfo({
           visible: true,
           templateId: id,
         });
         break;
-      case 'bool':
-      case 'enum': {
+      case "bool":
+      case "enum": {
         setEnumPanelInfo({
           visible: true,
           templateId: id,
@@ -172,11 +175,14 @@ export function DevicePanel() {
     const headTemplateConfig = state.templateMap[headPanelTemplateId];
     if (!headTemplateConfig) return null;
 
-    const { id, define: { type } } = headTemplateConfig;
+    const {
+      id,
+      define: { type },
+    } = headTemplateConfig;
     const value = state.deviceData[id];
 
     switch (type) {
-      case 'bool':
+      case "bool":
         return (
           <HeadBoolPanel
             templateConfig={headTemplateConfig}
@@ -185,7 +191,7 @@ export function DevicePanel() {
             disabled={disabled}
           />
         );
-      case 'enum':
+      case "enum":
         return (
           <HeadEnumPanel
             templateConfig={headTemplateConfig}
@@ -194,8 +200,8 @@ export function DevicePanel() {
             disabled={disabled}
           />
         );
-      case 'int':
-      case 'float':
+      case "int":
+      case "float":
         return (
           <HeadNumberPanel
             templateConfig={headTemplateConfig}

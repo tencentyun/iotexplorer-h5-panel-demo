@@ -23,7 +23,7 @@ export const useStandardBleConnector = ({
 
   const deviceAdapterRef = useRef(null);
   const [deviceConnectInfo, setDeviceConnectInfo] = useState({
-    status : {}
+    status: {}
   });
 
 
@@ -115,12 +115,13 @@ export const useStandardBleConnector = ({
       if (!deviceAdapter) {
         await sdk.blueToothAdapter.init();
         const [productId, deviceName] = deviceId.split('/');
-        
+
         const device = await sdk.blueToothAdapter.searchDevice({
           serviceId: StandardDeviceAdapter.serviceId,
           productId,
           deviceName,
         });
+
 
         if (device) {
           if (!deviceAdapterRef.current) {
@@ -139,7 +140,7 @@ export const useStandardBleConnector = ({
       await deviceAdapter.reconnectDevice({
         deviceName: deviceInfo.DeviceName
       });
-
+      
       // 设置这个deviceAdapter的templateData
       deviceAdapter.templateData = productInfo.DataTemplate;
       deviceAdapter
