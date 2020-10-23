@@ -66,6 +66,7 @@ npm run dev
 ```
 # 以 Whistle 代理为例：
 developing.script/developing.js https://127.0.0.1:9000/index.js
+developing.style/developing.css https://127.0.0.1:9000/index.css
 ```
 
 ### 访问开发工具

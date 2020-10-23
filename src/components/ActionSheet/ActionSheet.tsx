@@ -1,7 +1,21 @@
-import React, { useRef, useMemo, useEffect, useState, useContext } from 'react';
+import React from 'react';
 import './ActionSheet.less';
-import classNames from 'classnames';
-import { noop } from '../utils';
+import { noop } from '../../utils';
+
+export interface ActionSheetProps {
+  visible: boolean;
+  children: React.ReactNode;
+  title?: string;
+  onCancel?: () => void;
+  onConfirm?: () => void;
+  showConfirm: boolean;
+  confirmText?: string;
+  confirmColor?: string;
+  showCancel: boolean;
+  cancelText?: string;
+  cancelColor?: string;
+  maskClosable: boolean;
+}
 
 export function ActionSheet({
   visible,
@@ -11,12 +25,12 @@ export function ActionSheet({
   onConfirm = noop,
   showConfirm = true,
   confirmText = '确定',
-  confirmColor = '#0052d9',
+  confirmColor = '#0066ff',
   showCancel = true,
   cancelText = '取消',
   cancelColor = '#000',
   maskClosable = true,
-}) {
+}: ActionSheetProps) {
   const onOutsideClick = () => {
     if (maskClosable) {
       onCancel();

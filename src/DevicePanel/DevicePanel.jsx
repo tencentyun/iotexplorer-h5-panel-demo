@@ -1,91 +1,157 @@
-import React, { useEffect, useState, useReducer } from 'react';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
-import classNames from 'classnames';
-import { NumberPanelControl } from '../components/NumberPanelControl';
-import { EnumPanelControl } from '../components/EnumPanelControl';
+import React, { useEffect, useState, useRef } from "react";
+import sdk from "qcloud-iotexplorer-h5-panel-sdk";
+import { Card } from "../components/Card";
+import {
+  HeadBoolPanel,
+  HeadEnumPanel,
+  HeadNumberPanel,
+} from "../components/HeadPanels";
+import {
+  NumberPanelControl,
+  EnumPanelControl,
+} from "../components/DeviceDataModal";
+import { useDeviceData } from "../hooks/useDeviceData";
+import { StandardBleConnector } from "../StandardBleDemo/components/StandardBleConnector";
+import { PropertyList } from "./PropertyList";
+import { DeviceDetailBtn } from "./DeviceDetailBtn";
+import { ManualLayoutPropertyList } from "./ManualLayoutPropertyList";
+import "./DevicePanel.less";
 
-function reducer(state, action) {
-  const { type, payload } = action;
+const windowHeight =
+  window.innerHeight || document.documentElement.clientHeight;
+
+function PropertyCard({
+  templateConfig,
+  value,
+  onClick,
+  disabled: outerDisabled,
+  direction,
+}) {
+  const disabled =
+    Boolean(outerDisabled) || templateConfig.mode.indexOf("w") === -1;
+  const { name, define: { type, mapping, start, unit } = {} } = templateConfig;
 
   switch (type) {
-    case 'report':
-    case 'control':
-      const { deviceData } = state;
-
-      Object.keys(payload || {}).forEach((key) => {
-        deviceData[key] = payload[key].Value;
-      });
-
-      return {
-        ...state,
-        deviceData,
-      };
-    case 'status':
-      return {
-        ...state,
-        deviceStatus: payload,
-      };
+    case "int":
+    case "float":
+      if (value === undefined) {
+        value = start;
+      }
+      value += unit ? unit : "";
+      break;
+    case "bool":
+    case "enum": {
+      if (value === undefined || !(value in mapping)) {
+        value = Object.keys(mapping)[0];
+      }
+      value = mapping[value];
+      break;
+    }
   }
 
-  return state;
+  return (
+    <Card
+      icon="create"
+      title={name}
+      desc={value}
+      onClick={onClick}
+      disabled={disabled}
+      direction={direction}
+    />
+  );
 }
-
-function initState(sdk) {
-  const templateMap = {};
-  // 过滤掉string和timestamp类型
-  const templateList = sdk.dataTemplate.properties
-    .filter((item) => {
-      if (item.define.type !== 'string' || item.define.type !== 'timestamp') {
-        templateMap[item.id] = item;
-
-        return true;
-      }
-
-      return false;
-    });
-
-  return {
-    templateMap,
-    templateList,
-    deviceData: sdk.deviceData,
-    deviceStatus: sdk.deviceStatus,
-  };
-}
-
-const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
 export function DevicePanel() {
-  const [state, dispatch] = useReducer(reducer, sdk, initState);
+  const [state, { onDeviceDataChange, onDeviceStatusChange }] = useDeviceData(
+    sdk
+  );
 
+  const isStandardBleDevice = sdk._productInfo.NetType === "ble";
   const [numberPanelInfo, setNumberPanelInfo] = useState({
     visible: false,
-    templateId: '',
+    templateId: "",
   });
+
   const [enumPanelInfo, setEnumPanelInfo] = useState({
     visible: false,
-    templateId: '',
+    templateId: "",
   });
 
-  const onControlDeviceData = (id, value) => sdk.controlDeviceData({ [id]: value });
+  useEffect(() => {
+    sdk.setShareConfig({
+      title: sdk.displayName,
+    });
+  }, []);
+
+  // WebSocket 监听
+  useEffect(() => {
+    const handleWsControl = ({ deviceId, deviceData }) => {
+      if (deviceId === sdk.deviceId) {
+        onDeviceDataChange(deviceData);
+      }
+    };
+
+    const handleWsReport = ({ deviceId, deviceData }) => {
+      if (deviceId === sdk.deviceId) {
+        onDeviceDataChange(deviceData);
+      }
+    };
+
+    const handleWsStatusChange = ({ deviceId, deviceStatus }) => {
+      if (deviceId === sdk.deviceId) {
+        onDeviceStatusChange(deviceStatus);
+      }
+    };
+
+    sdk
+      .on("wsControl", handleWsControl)
+      .on("wsReport", handleWsReport)
+      .on("wsStatusChange", handleWsStatusChange);
+
+    return () => {
+      sdk
+        .off("wsControl", handleWsControl)
+        .off("wsReport", handleWsReport)
+        .off("wsStatusChange", handleWsStatusChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    // 检查固件更新，若有可升级固件，且设备在线，则弹出提示
+    const doCheckFirmwareUpgrade = async () => {
+      try {
+        const upgradeInfo = await sdk.checkFirmwareUpgrade({
+          silent: false, // 设置为 true 则只检查，不弹出提示
+        });
+        console.log("firmware upgrade info", upgradeInfo);
+      } catch (err) {
+        console.error("checkFirmwareUpgrade fail", err);
+      }
+    };
+    doCheckFirmwareUpgrade();
+  }, []);
+
+  const onControlDeviceData = (id, value) =>
+    sdk.controlDeviceData({ [id]: value });
 
   const onControlPanelItem = (item) => {
-    console.log('onControlPanelItem', item);
+    console.log("onControlPanelItem", item);
 
-    const { id, define: { type, mapping } } = item;
-    const value = state.deviceData[id];
+    const {
+      id,
+      define: { type },
+    } = item;
 
     switch (type) {
-      case 'bool':
-        onControlDeviceData(id, !value ? 1 : 0);
-        break;
-      case 'int':
-      case 'float':
+      case "int":
+      case "float":
         setNumberPanelInfo({
           visible: true,
           templateId: id,
         });
         break;
-      case 'enum': {
+      case "bool":
+      case "enum": {
         setEnumPanelInfo({
           visible: true,
           templateId: id,
@@ -94,206 +160,133 @@ export function DevicePanel() {
     }
   };
 
-  useEffect(() => {
-    sdk.setShareConfig({
-      title: sdk.displayName,
-    });
+  // 一般非在线状态（state.deviceStatus === 0）需要禁止控制
+  const disabled = false; // !state.deviceStatus;
 
-    const handleWsControl = ({ deviceId, deviceData }) => {
-      if (deviceId === sdk.deviceId) {
-        dispatch({
-          type: 'control',
-          payload: deviceData,
-        });
-      }
-    };
+  // 指定要展示大按钮的属性标识符，为 null 则取第一个属性
+  let headPanelTemplateId = null;
+  if (!headPanelTemplateId && state.templateList.length > 0) {
+    headPanelTemplateId = state.templateList[0].id;
+  }
 
-    const handleWsReport = ({ deviceId, deviceData }) => {
-      if (deviceId === sdk.deviceId) {
-        dispatch({
-          type: 'report',
-          payload: deviceData,
-        });
-      }
-    };
+  const renderHeadPanel = () => {
+    if (!headPanelTemplateId) return null;
 
-    const handleWsStatusChange = ({ deviceId, deviceStatus }) => {
-      if (deviceId === sdk.deviceId) {
-        dispatch({
-          type: 'status',
-          payload: deviceStatus,
-        });
-      }
-    };
+    const headTemplateConfig = state.templateMap[headPanelTemplateId];
+    if (!headTemplateConfig) return null;
 
-    sdk
-      .on('wsControl', handleWsControl)
-      .on('wsReport', handleWsReport)
-      .on('wsStatusChange', handleWsStatusChange);
+    const {
+      id,
+      define: { type },
+    } = headTemplateConfig;
+    const value = state.deviceData[id];
 
-    return () => sdk
-      .off('wsControl', handleWsControl)
-      .off('wsReport', handleWsReport)
-      .off('wsStatusChange', handleWsStatusChange);
-  }, []);
-
-
-
-  const showDeviceDetail = async () => {
-    const isConfirm = await sdk.tips.confirm('是否展示H5设备详情？');
-
-    if (isConfirm) {
-      await sdk.tips.alert('当前选择H5设备详情');
-
-      sdk.showDeviceDetail({
-        labelWidth: 120,
-        marginTop: 0,
-        shareParams:  'a'.repeat(233)
-        ,
-        extendItems: [
-          {
-            labelIcon: 'https://main.qcloudimg.com/raw/be1d876d55ec2479d384e17c94df0e69.svg',
-            label: '自定义菜单',
-            content: '自定义菜单内容（可选）',
-            onClick: () => console.log('点击自定义菜单'),
-          },
-        ],
-        extendButtons: [
-          {
-            text: '自定义按钮',
-            type: 'warning',
-            onClick: () => console.log('点击自定义按钮'),
-          },
-          {
-            text: '获取自定义分享参数',
-            onClick: async () => {
-              const shareParams = await sdk.getShareParams();
-              alert(`自定义分享参数: ${JSON.stringify(shareParams)}`);
-            }
-          },
-          {
-            text: '关闭设备详情',
-            type: '',
-            onClick: () => sdk.hideDeviceDetail(),
-          },
-        ],
-      });
-    } else {
-      await sdk.tips.alert('当前选择原生设备详情');
-
-      sdk.goDeviceDetailPage();
+    switch (type) {
+      case "bool":
+        return (
+          <HeadBoolPanel
+            templateConfig={headTemplateConfig}
+            onChange={(value) => onControlDeviceData(id, value)}
+            value={value}
+            disabled={disabled}
+          />
+        );
+      case "enum":
+        return (
+          <HeadEnumPanel
+            templateConfig={headTemplateConfig}
+            onChange={(value) => onControlDeviceData(id, value)}
+            value={value}
+            disabled={disabled}
+          />
+        );
+      case "int":
+      case "float":
+        return (
+          <HeadNumberPanel
+            templateConfig={headTemplateConfig}
+            onChange={(value) => onControlDeviceData(id, value)}
+            value={value}
+            disabled={disabled}
+          />
+        );
+      default:
+        return null;
     }
   };
 
+  const renderPropertyCard = ({ templateConfig, cardDirection }) => (
+    <PropertyCard
+      key={templateConfig.id}
+      templateConfig={templateConfig}
+      value={state.deviceData[templateConfig.id]}
+      disabled={disabled}
+      direction={cardDirection}
+      onClick={() => onControlPanelItem(templateConfig)}
+    />
+  );
+
+  // 设置为 true 切换为手动排列属性示例
+  const showManualLayoutPropertyList = false;
+
   return (
-    <>
-      <div className="panel-list" style={{ minHeight: `${windowHeight}px` }}>
-        {state.templateList.map((item) => {
-          const { id } = item;
+    <div>
+      {isStandardBleDevice && (
+        <StandardBleConnector familyId={sdk.familyId} deviceId={sdk.deviceId} />
+      )}
+      <div
+        className="device-panel clear-margin"
+        style={{ minHeight: `${windowHeight}px` }}
+      >
+        <DeviceDetailBtn />
 
-          const {
-            name,
-            mode = '',
-            define: {
-              type, mapping, start,
-            } = {},
-          } = item;
+        {renderHeadPanel()}
 
-          let value = state.deviceData[id];
-
-          // 一般非在线状态需要禁止控制，控制了也白控制
-          const disabled = false; // !state.deviceStatus || mode.indexOf('w') === -1;
-
-          if ((type === 'int' || type === 'float') && typeof value === 'undefined') {
-            value = start;
-          }
-
-          return (
-            <div
-              key={id}
-              className="col-span-1 panel-row"
-            >
-              <div
-                key={id}
-                className={classNames('panel-item', `type-${type}`, {
-                  disabled,
-                })}
-              >
-                <div
-                  className="panel-item-content need-hover"
-                  onClick={() => {
-                    if (disabled) return;
-
-                    onControlPanelItem(item);
-                  }}
-                >
-                  <div className="panel-header">
-                    <div className="panel-name text-overflow">
-                      {name}
-                    </div>
-                  </div>
-
-                  <div
-                    className={classNames('panel-value-container append-arrow')}
-                  >
-                    <div className="panel-value text-overflow">
-                      {type === 'bool' ? (
-                        <div
-                          className={classNames('iot-switch', {
-                            checked: !!value,
-                          })}
-                        />
-                      ) : type === 'enum' ? (
-                        mapping[value || 0]
-                      ) : value}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-
-        <div className="divider"/>
-
-        <div className="panel-row">
-          <div className="panel-item">
-            <div
-              className="panel-item-content need-hover"
-              onClick={() => showDeviceDetail()}
-            >
-              <div className="panel-header">
-                <div className="panel-name">
-                  设备详情
-                </div>
-              </div>
-
-              <div className="panel-value-container append-arrow"/>
-            </div>
+        {state.templateList.length > 0 && (
+          <div className="card-layout">
+            {!showManualLayoutPropertyList ? (
+              // 自动排列
+              <PropertyList
+                templateList={state.templateList}
+                renderProperty={renderPropertyCard}
+                layoutType="wide" // 长按钮:wide, 中按钮:medium, 小按钮:mini
+              />
+            ) : (
+              // 手动排列
+              <ManualLayoutPropertyList
+                templateList={state.templateList}
+                renderProperty={renderPropertyCard}
+              />
+            )}
           </div>
-        </div>
-      </div>
-      {numberPanelInfo.visible && (
-        <NumberPanelControl
-          visible={true}
-          templateId={numberPanelInfo.templateId}
-          templateConfig={state.templateMap[numberPanelInfo.templateId]}
-          value={state.deviceData[numberPanelInfo.templateId]}
-          onChange={onControlDeviceData}
-          onClose={() => setNumberPanelInfo({ visible: false, templateId: '' })}
-        />
-      )}
+        )}
 
-      {enumPanelInfo.visible && (
-        <EnumPanelControl
-          visible={true}
-          templateId={enumPanelInfo.templateId}
-          templateConfig={state.templateMap[enumPanelInfo.templateId]}
-          value={state.deviceData[enumPanelInfo.templateId]}
-          onChange={onControlDeviceData}
-          onClose={() => setEnumPanelInfo({ visible: false, templateId: '' })}
-        />
-      )}
-    </>
-  )
+        {numberPanelInfo.visible && (
+          <NumberPanelControl
+            visible={true}
+            templateConfig={state.templateMap[numberPanelInfo.templateId]}
+            value={state.deviceData[numberPanelInfo.templateId]}
+            onChange={(value) =>
+              onControlDeviceData(numberPanelInfo.templateId, value)
+            }
+            onClose={() =>
+              setNumberPanelInfo({ visible: false, templateId: "" })
+            }
+          />
+        )}
+
+        {enumPanelInfo.visible && (
+          <EnumPanelControl
+            visible={true}
+            templateConfig={state.templateMap[enumPanelInfo.templateId]}
+            value={state.deviceData[enumPanelInfo.templateId]}
+            onChange={(value) =>
+              onControlDeviceData(enumPanelInfo.templateId, value)
+            }
+            onClose={() => setEnumPanelInfo({ visible: false, templateId: "" })}
+          />
+        )}
+      </div>
+    </div>
+  );
 }
