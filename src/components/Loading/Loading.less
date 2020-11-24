@@ -1,0 +1,76 @@
+.loading-icon {
+  display: inline-block;
+  font-size: 0;
+  line-height: initial;
+
+  &.spinner {
+    display: inline-block;
+    height: 12px;
+    line-height: 12px;
+  }
+
+  &.spinner > .bounce {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 14px;
+    background-color: #888;
+    border-radius: 100%;
+    animation: sk-opacity 1.4s infinite ease-in-out both;
+    vertical-align: middle;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  &.spinner.white > .bounce {
+    background-color: #fff;
+  }
+
+  &.spinner .bounce1 {
+    animation-delay: -0.32s;
+  }
+
+  &.spinner .bounce2 {
+    animation-delay: -0.16s;
+  }
+
+  @keyframes sk-opacity {
+    0%, 80%, 100% {
+      opacity: .4;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+
+  &.loading-rotate {
+    animation: loading-rotate 1s linear infinite;
+  }
+
+  &.loading-grey {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 50%;
+  }
+
+  &.loading-blue {
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    top: 50%;
+  }
+
+
+  @keyframes loading-rotate {
+    from {
+      transform: translateY(-50%) rotate(0);
+    }
+
+    to {
+      transform: translateY(-50%) rotate(360deg);
+    }
+  }
+}

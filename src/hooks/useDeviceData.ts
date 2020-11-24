@@ -36,12 +36,21 @@ function reducer(state: DeviceDataState, action: {
   return state;
 }
 
+function isAsr (item: any) {
+  return item && (item.define.type === 'asr' || (item.id === 'asr_response' && item.define.type === 'string'))
+}
+
 function initState(sdk: any) {
   const templateMap: any = {};
 
   // 过滤掉 string 和 timestamp 类型
   const templateList = sdk.dataTemplate.properties
     .filter((item: TemplatePropertyConfig) => {
+      // 方面后面渲染时做判断处理，这里专属为asr识别
+      if (isAsr(item)) {
+        item.define.type = 'asr'
+      }
+
       if (item.define.type !== 'string' && item.define.type !== 'timestamp') {
         templateMap[item.id] = item;
 
@@ -50,6 +59,11 @@ function initState(sdk: any) {
 
       return false;
     });
+
+  // 如果第一项是asr，则挪到后面
+  if (isAsr(templateList[0])) {
+    templateList.push(templateList.splice(0, 1)[0])
+  }
 
   return {
     templateMap,

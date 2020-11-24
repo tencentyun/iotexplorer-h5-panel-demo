@@ -5,6 +5,8 @@ const { blueToothAdapter } = sdk;
 
 import classNames from 'classnames';
 
+console.log('sdk', sdk);
+
 export function PanelPage() {
 	const deviceAdapterRef = useRef(null);
 	const [deviceConnectInfo, setDeviceConnectInfo] = useState({
