@@ -3,13 +3,26 @@
 
 ## Quick Start
 
-### 1. 安装H5面板SDK
+### 1. 配置H5面板SDK
 
 [H5 SDK 文档](https://www.npmjs.com/package/qcloud-iotexplorer-h5-panel-sdk)
 
+
+~~npm i qcloud-iotexplorer-h5-panel-sdk~~
 ```
-npm i qcloud-iotexplorer-h5-panel-sdk
+// 直接通过 window 访问
+window.h5PanelSdk;
+
+// 或webpack配置 externals
+// webpack.config.js
+module.exports = {
+  externals: {
+    'qcloud-iotexplorer-h5-panel-sdk': 'h5PanelSdk',
+  },
+};
+
 ```
+
 
 ### 2. 前端渲染H5面板
 
