@@ -120,6 +120,7 @@ export const useStandardBleConnector = ({
           serviceId: StandardDeviceAdapter.serviceId,
           productId,
           deviceName,
+          disableCache: true,
         });
 
 
