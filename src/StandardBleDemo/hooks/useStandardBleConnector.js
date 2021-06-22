@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import sdk, { StandardDeviceAdapter, ERROR_MESSAGES } from 'qcloud-iotexplorer-h5-panel-sdk';
-import { AppDevSdk } from "qcloud-iotexplorer-appdev-sdk";
 
 export const DEVICE_DISCONNECTED = 'disconnected';
 export const DEVICE_CONNECTING = 'connecting';
@@ -85,16 +84,16 @@ export const useStandardBleConnector = ({
         deviceAdapterRef.current.on('disconnect', onDisconnectRef.current);
       }
       // 不需要连接成功就可以监听
-      sdk.on(AppDevSdk.constants.EventTypes.WsControl, onRemoteControlRef.current);
-      sdk.on(AppDevSdk.constants.EventTypes.WsActionPush, onRemoteActionControlRef.current);
+      sdk.on(sdk.appDevSdk.constants.EventTypes.WsControl, onRemoteControlRef.current);
+      sdk.on(sdk.appDevSdk.constants.EventTypes.WsActionPush, onRemoteActionControlRef.current);
 
       return () => {
         if (deviceAdapterRef.current) {
           deviceAdapterRef.current
             .off('disconnect', onDisconnectRef.current);
           deviceAdapterRef.current.stopListenLLEvents();
-          sdk.off(AppDevSdk.constants.EventTypes.WsControl, onRemoteControlRef.current);
-          sdk.off(AppDevSdk.constants.EventTypes.WsActionPush, onRemoteActionControlRef.current);
+          sdk.off(sdk.appDevSdk.constants.EventTypes.WsControl, onRemoteControlRef.current);
+          sdk.off(sdk.appDevSdk.constants.EventTypes.WsActionPush, onRemoteActionControlRef.current);
           deviceAdapterRef.current = null;
         }
       };
