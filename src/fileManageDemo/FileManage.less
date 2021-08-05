@@ -1,0 +1,56 @@
+.file-card{
+  position:relative;
+  min-height: 90vh;
+  padding-top:20px;
+  background-color: rgb(243, 243, 243);
+  .file-button{
+    position: absolute;
+    bottom: 5px;
+    height: 7%;
+    line-height: 36px;
+    text-align: center;
+    box-sizing: border-box;
+    border-radius: 40px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    min-width: 95%;
+    margin: 0 10px;
+    padding: 0 10px;
+    background-color: #006eff;
+    color: #fff;
+    cursor: pointer;
+    outline: 0 none;
+    font-size: .8em;
+  }
+  .file-list{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      font-size:14px;
+      margin-bottom: 80px;
+
+      .file-item{
+          width: 100%;
+          height: 60px;
+          background: #fff;
+          line-height: 60px;
+          border-bottom: 1px solid #E7E8EB;
+          border-radius: 5px;
+        .file-item-config {
+          float: right;
+          display: block;
+          width: 82%;
+          text-align: right;
+          margin-left: 5px;
+          margin-right: 10px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
+  }
+}
+
