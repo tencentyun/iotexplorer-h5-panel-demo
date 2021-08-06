@@ -6,7 +6,6 @@ import { ResourceNameContext } from '../app';
 import './AddFile.less';
 import { FileSdkForH5 } from 'tencentcloud-file-resource-sdk';
 const fileSdk = new FileSdkForH5(sdk);
-console.log("filesdk", fileSdk.__proto__);
 
 
 export function AddFile() {
@@ -18,7 +17,7 @@ export function AddFile() {
 
   const AppGetResourceUploadURL = async () =>{
     const file = document.getElementById('file').files[0];
-    const { ResourceName } = await fileSdk.AppGetResourceUploadURL(file);
+    const { ResourceName } = await fileSdk.getResourceUploadURL(file);
     upDateResourceName(ResourceName);
     hasUpload.current = true;
   }

@@ -18,7 +18,7 @@
     "react-rangeslider": "^2.2.0",
     "react-router-dom": "^5.1.2",
     "spark-md5": "^3.0.1",
-    "tencentcloud-file-resource-sdk": "^1.1.5"
+    "tencentcloud-file-resource-sdk": "^1.1.6"
   },
   "scripts": {
     "dev": "node_modules\\.bin\\webpack-dev-server --config webpack\\webpack.config.js --env.mode=development --watch",
