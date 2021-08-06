@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@tencent/file-sdk": "^1.1.2",
+    "@tencent/file-sdk": "^1.1.4",
     "@types/classnames": "^2.2.9",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.11",
