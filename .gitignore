@@ -1,4 +1,5 @@
 .idea
 node_modules
 .npmrc
+dist
 package-lock.json
