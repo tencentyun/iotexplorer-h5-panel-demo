@@ -125,7 +125,7 @@ export const useStandardBleConnector = ({
           console.log('searchDevice result', device);
 
           if (device) {
-            deviceAdapter = await blueToothAdapter.connectDevice(device, { autoNotify: false });
+            deviceAdapter = await blueToothAdapter.connectDevice(device);
           }
         }
 
