@@ -48,7 +48,7 @@ export const StandardBleConnector = forwardRef(
 							<Loading
 								type="rotate-grey"
 								className="icon-loading item-icon"
-								size={48}
+								size={24}
 							/>
 						</div>
 					);
