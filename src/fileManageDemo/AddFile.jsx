@@ -17,7 +17,7 @@ export function AddFile() {
 
   const AppGetResourceUploadURL = async () =>{
     const file = document.getElementById('file').files[0];
-    const { ResourceName } = await fileSdk.getResourceUploadURL(file);
+    const { ResourceName } = await fileSdk.appGetResourceUploadURL(file);
     upDateResourceName(ResourceName);
     hasUpload.current = true;
   }
