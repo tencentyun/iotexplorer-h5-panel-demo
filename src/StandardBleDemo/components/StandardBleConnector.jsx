@@ -38,7 +38,7 @@ export const StandardBleConnector = forwardRef(
 							className="device-action-link device-action-text"
 							onClick={connectDevice}
 						>
-							<span className="link text">立即连接</span>
+							<span className="text link">立即连接</span>
 						</div>
 					);
 				}
