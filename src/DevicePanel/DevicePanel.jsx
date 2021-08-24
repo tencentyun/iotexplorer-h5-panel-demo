@@ -1,16 +1,24 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
-import { Card } from '../components/Card';
-import { HeadBoolPanel, HeadEnumPanel, HeadNumberPanel } from '../components/HeadPanels';
-import { NumberPanelControl, EnumPanelControl } from '../components/DeviceDataModal';
-import { useDeviceData } from '../hooks/useDeviceData';
+import React, { useEffect, useState, useRef } from "react";
+import sdk from "qcloud-iotexplorer-h5-panel-sdk";
+import { Card } from "../components/Card";
+import {
+  HeadBoolPanel,
+  HeadEnumPanel,
+  HeadNumberPanel,
+} from "../components/HeadPanels";
+import {
+  NumberPanelControl,
+  EnumPanelControl,
+} from "../components/DeviceDataModal";
+import { useDeviceData } from "../hooks/useDeviceData";
+import { StandardBleConnector } from "../StandardBleDemo/components/StandardBleConnector";
+import { PropertyList } from "./PropertyList";
+import { DeviceDetailBtn } from "./DeviceDetailBtn";
+import { ManualLayoutPropertyList } from "./ManualLayoutPropertyList";
+import "./DevicePanel.less";
 
-import { PropertyList } from './PropertyList';
-import { DeviceDetailBtn } from './DeviceDetailBtn';
-import { ManualLayoutPropertyList } from './ManualLayoutPropertyList';
-import './DevicePanel.less';
-
-const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+const windowHeight =
+  window.innerHeight || document.documentElement.clientHeight;
 
 function PropertyCard({
   templateConfig,
@@ -19,25 +27,20 @@ function PropertyCard({
   disabled: outerDisabled,
   direction,
 }) {
-  const disabled = Boolean(outerDisabled) || templateConfig.mode.indexOf('w') === -1;
-  
-  const {
-    name,
-    define: {
-      type, mapping, start, unit
-    } = {},
-  } = templateConfig;
+  const disabled =
+    Boolean(outerDisabled) || templateConfig.mode.indexOf("w") === -1;
+  const { name, define: { type, mapping, start, unit } = {} } = templateConfig;
 
   switch (type) {
-    case 'int':
-    case 'float':
+    case "int":
+    case "float":
       if (value === undefined) {
         value = start;
       }
-      value += unit ? unit : '';
+      value += unit ? unit : "";
       break;
-    case 'bool':
-    case 'enum': {
+    case "bool":
+    case "enum": {
       if (value === undefined || !(value in mapping)) {
         value = Object.keys(mapping)[0];
       }
@@ -51,7 +54,7 @@ function PropertyCard({
       icon="create"
       title={name}
       desc={value}
-      onClick={onClick} 
+      onClick={onClick}
       disabled={disabled}
       direction={direction}
     />
@@ -59,19 +62,19 @@ function PropertyCard({
 }
 
 export function DevicePanel() {
-  const [state, {
-    onDeviceDataChange,
-    onDeviceStatusChange
-  }] = useDeviceData(sdk);
+  const [state, { onDeviceDataChange, onDeviceStatusChange }] = useDeviceData(
+    sdk
+  );
 
+  const isStandardBleDevice = sdk.isStandardBleDevice;
   const [numberPanelInfo, setNumberPanelInfo] = useState({
     visible: false,
-    templateId: '',
+    templateId: "",
   });
 
   const [enumPanelInfo, setEnumPanelInfo] = useState({
     visible: false,
-    templateId: '',
+    templateId: "",
   });
 
   useEffect(() => {
@@ -101,15 +104,15 @@ export function DevicePanel() {
     };
 
     sdk
-      .on('wsControl', handleWsControl)
-      .on('wsReport', handleWsReport)
-      .on('wsStatusChange', handleWsStatusChange);
+      .on("wsControl", handleWsControl)
+      .on("wsReport", handleWsReport)
+      .on("wsStatusChange", handleWsStatusChange);
 
     return () => {
       sdk
-        .off('wsControl', handleWsControl)
-        .off('wsReport', handleWsReport)
-        .off('wsStatusChange', handleWsStatusChange);
+        .off("wsControl", handleWsControl)
+        .off("wsReport", handleWsReport)
+        .off("wsStatusChange", handleWsStatusChange);
     };
   }, []);
 
@@ -120,31 +123,35 @@ export function DevicePanel() {
         const upgradeInfo = await sdk.checkFirmwareUpgrade({
           silent: false, // 设置为 true 则只检查，不弹出提示
         });
-        console.log('firmware upgrade info', upgradeInfo);
+        console.log("firmware upgrade info", upgradeInfo);
       } catch (err) {
-        console.error('checkFirmwareUpgrade fail', err);
+        console.error("checkFirmwareUpgrade fail", err);
       }
     };
     doCheckFirmwareUpgrade();
   }, []);
-  
-  const onControlDeviceData = (id, value) => sdk.controlDeviceData({ [id]: value });
+
+  const onControlDeviceData = (id, value) =>
+    sdk.controlDeviceData({ [id]: value });
 
   const onControlPanelItem = (item) => {
-    console.log('onControlPanelItem', item);
+    console.log("onControlPanelItem", item);
 
-    const { id, define: { type } } = item;
+    const {
+      id,
+      define: { type },
+    } = item;
 
     switch (type) {
-      case 'int':
-      case 'float':
+      case "int":
+      case "float":
         setNumberPanelInfo({
           visible: true,
           templateId: id,
         });
         break;
-      case 'bool':
-      case 'enum': {
+      case "bool":
+      case "enum": {
         setEnumPanelInfo({
           visible: true,
           templateId: id,
@@ -168,11 +175,14 @@ export function DevicePanel() {
     const headTemplateConfig = state.templateMap[headPanelTemplateId];
     if (!headTemplateConfig) return null;
 
-    const { id, define: { type } } = headTemplateConfig;
+    const {
+      id,
+      define: { type },
+    } = headTemplateConfig;
     const value = state.deviceData[id];
 
     switch (type) {
-      case 'bool':
+      case "bool":
         return (
           <HeadBoolPanel
             templateConfig={headTemplateConfig}
@@ -181,7 +191,7 @@ export function DevicePanel() {
             disabled={disabled}
           />
         );
-      case 'enum':
+      case "enum":
         return (
           <HeadEnumPanel
             templateConfig={headTemplateConfig}
@@ -190,8 +200,8 @@ export function DevicePanel() {
             disabled={disabled}
           />
         );
-      case 'int':
-      case 'float':
+      case "int":
+      case "float":
         return (
           <HeadNumberPanel
             templateConfig={headTemplateConfig}
@@ -220,49 +230,63 @@ export function DevicePanel() {
   const showManualLayoutPropertyList = false;
 
   return (
-    <div className="device-panel clear-margin" style={{ minHeight: `${windowHeight}px` }}>
-      <DeviceDetailBtn />
-
-      {renderHeadPanel()}
-      
-      {state.templateList.length > 0 && (
-        <div className="card-layout">
-          { !showManualLayoutPropertyList ? (
-            // 自动排列 
-            <PropertyList
-              templateList={state.templateList}
-              renderProperty={renderPropertyCard}
-              layoutType="wide" // 长按钮:wide, 中按钮:medium, 小按钮:mini
-            />
-          ) : (
-            // 手动排列
-            <ManualLayoutPropertyList
-              templateList={state.templateList}
-              renderProperty={renderPropertyCard}
-            />
-          )}
-        </div>
+    <div>
+      {isStandardBleDevice && (
+        <StandardBleConnector familyId={sdk.familyId} deviceId={sdk.deviceId} />
       )}
+      <div
+        className="device-panel clear-margin"
+        style={{ minHeight: `${windowHeight}px` }}
+      >
+        <DeviceDetailBtn />
 
-      {numberPanelInfo.visible && (
-        <NumberPanelControl
-          visible={true}
-          templateConfig={state.templateMap[numberPanelInfo.templateId]}
-          value={state.deviceData[numberPanelInfo.templateId]}
-          onChange={(value) => onControlDeviceData(numberPanelInfo.templateId, value)}
-          onClose={() => setNumberPanelInfo({ visible: false, templateId: '' })}
-        />
-      )}
+        {renderHeadPanel()}
 
-      {enumPanelInfo.visible && (
-        <EnumPanelControl
-          visible={true}
-          templateConfig={state.templateMap[enumPanelInfo.templateId]}
-          value={state.deviceData[enumPanelInfo.templateId]}
-          onChange={(value) => onControlDeviceData(enumPanelInfo.templateId, value)}
-          onClose={() => setEnumPanelInfo({ visible: false, templateId: '' })}
-        />
-      )}
+        {state.templateList.length > 0 && (
+          <div className="card-layout">
+            {!showManualLayoutPropertyList ? (
+              // 自动排列
+              <PropertyList
+                templateList={state.templateList}
+                renderProperty={renderPropertyCard}
+                layoutType="wide" // 长按钮:wide, 中按钮:medium, 小按钮:mini
+              />
+            ) : (
+              // 手动排列
+              <ManualLayoutPropertyList
+                templateList={state.templateList}
+                renderProperty={renderPropertyCard}
+              />
+            )}
+          </div>
+        )}
+
+        {numberPanelInfo.visible && (
+          <NumberPanelControl
+            visible={true}
+            templateConfig={state.templateMap[numberPanelInfo.templateId]}
+            value={state.deviceData[numberPanelInfo.templateId]}
+            onChange={(value) =>
+              onControlDeviceData(numberPanelInfo.templateId, value)
+            }
+            onClose={() =>
+              setNumberPanelInfo({ visible: false, templateId: "" })
+            }
+          />
+        )}
+
+        {enumPanelInfo.visible && (
+          <EnumPanelControl
+            visible={true}
+            templateConfig={state.templateMap[enumPanelInfo.templateId]}
+            value={state.deviceData[enumPanelInfo.templateId]}
+            onChange={(value) =>
+              onControlDeviceData(enumPanelInfo.templateId, value)
+            }
+            onClose={() => setEnumPanelInfo({ visible: false, templateId: "" })}
+          />
+        )}
+      </div>
     </div>
   );
 }

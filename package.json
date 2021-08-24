@@ -12,8 +12,7 @@
     "install": "^0.13.0",
     "moment": "^2.29.1",
     "npm": "^6.14.2",
-    "qcloud-iotexplorer-h5-panel-sdk": "^1.1.18",
-    "react": "^16.14.0",
+    "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-rangeslider": "^2.2.0",
     "react-router-dom": "^5.1.2",
@@ -21,8 +20,8 @@
     "tencentcloud-file-resource-sdk": "^1.1.8"
   },
   "scripts": {
-    "dev": "node_modules\\.bin\\webpack-dev-server --config webpack\\webpack.config.js --env.mode=development --watch",
-    "release": "node_module\\.bin\\webpack --config webpack\\webpack.config.js --env.mode=production"
+    "dev": "webpack-dev-server --config webpack/webpack.config.js --env.mode=development --watch",
+    "release": "webpack --config webpack/webpack.config.js --env.mode=production"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,6 +45,7 @@
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.10.4",
+    "@babel/runtime": "^7.12.1",
     "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -59,6 +59,7 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.0",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
   }

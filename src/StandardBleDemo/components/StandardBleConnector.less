@@ -1,0 +1,111 @@
+.blue-tooth-connector {
+  font-size: 14px;
+  border-radius: 0;
+  height: 44px;
+  width: 100%;
+  color: #15161a;
+
+  &.connected {
+    background-image: linear-gradient(135deg, #3d8bff 0%, #0066ff 100%);
+    color: #ffffff;
+  }
+
+  &.disconnected,
+  &.connecting {
+    background: #e5e7eb;
+    box-shadow: 0 -1px 0 0 #d2d4d9;
+    color: #15161a;
+  }
+
+  &.connect-error {
+    background-image: linear-gradient(135deg, #fd8989 0%, #fa5151 100%);
+    color: #ffffff;
+  }
+
+  .blue-tooth-content {
+    height: 100%;
+    width: 100%;
+  }
+
+  .standard-blue-tooth-icon {
+    height: 20px;
+    width: 20px;
+    float: left;
+    margin: 12px 8px 0 16px;
+    background: #fff;
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+
+    &.connected {
+      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+5qCH5YeG5o6n5Yi26Z2i5p2/L+iTneeJmTE8L3RpdGxlPgogICAgPGcgaWQ9Iuagh+WHhuaOp+WItumdouadvy/ok53niZkxIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0i6JOd54mZ6KeS5qCHIj4KICAgICAgICAgICAgPHJlY3QgaWQ9IuefqeW9oiIgZmlsbD0iI0ZGRkZGRiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiPjwvcmVjdD4KICAgICAgICAgICAgPGcgaWQ9Iue8lue7hC0yIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4LjAwMDAwMCwgOC4wMDAwMDApIiBzdHJva2U9IiMwMDY2RkYiIHN0cm9rZS13aWR0aD0iMiI+CiAgICAgICAgICAgICAgICA8ZyBpZD0i6JOd54mZIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LjAwMDAwMCwgMi4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cG9seWxpbmUgaWQ9Iui3r+W+hC0yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBwb2ludHM9IjYgMTAuMDI4NzY2MSAxMi4zNjAwNDExIDUuNDg5MjM5MjQgNiAwIDYgMjAuMTEwNDczNiAxMi4zNjAwNDExIDE1LjUwOTcwMTkgNiAxMC4wMzE0NDExIj48L3BvbHlsaW5lPgogICAgICAgICAgICAgICAgICAgIDxsaW5lIHgxPSI2LjQyMzYyNjQ0IiB5MT0iMTAuMDY5OTQ4OSIgeDI9Ii0yLjIyMDQ0NjA1ZS0xNSIgeTI9IjQuNjIzNjIwMDciIGlkPSLot6/lvoQtMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48L2xpbmU+CiAgICAgICAgICAgICAgICAgICAgPGxpbmUgeDE9IjEuNzMxOTQ3OTJlLTE0IiB5MT0iMTUuNjA0OTk2NCIgeDI9IjYuMzkxMzA0MzUiIHkyPSIxMC4wNjk5NDg5IiBpZD0i6Lev5b6ELTQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+PC9saW5lPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=");
+    }
+
+    &.disconnected,
+    &.connecting {
+      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+5qCH5YeG5o6n5Yi26Z2i5p2/L+iTneeJmTI8L3RpdGxlPgogICAgPGcgaWQ9Iuagh+WHhuaOp+WItumdouadvy/ok53niZkyIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0i6JOd54mZ6KeS5qCHIj4KICAgICAgICAgICAgPHJlY3QgaWQ9IuefqeW9oiIgZmlsbD0iI0ZGRkZGRiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiPjwvcmVjdD4KICAgICAgICAgICAgPGcgaWQ9Iue8lue7hC0yIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4LjAwMDAwMCwgOC4wMDAwMDApIiBzdHJva2U9IiMxNTE2MUEiIHN0cm9rZS13aWR0aD0iMiI+CiAgICAgICAgICAgICAgICA8ZyBpZD0i6JOd54mZIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LjAwMDAwMCwgMi4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cG9seWxpbmUgaWQ9Iui3r+W+hC0yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBwb2ludHM9IjYgMTAuMDI4NzY2MSAxMi4zNjAwNDExIDUuNDg5MjM5MjQgNiAwIDYgMjAuMTEwNDczNiAxMi4zNjAwNDExIDE1LjUwOTcwMTkgNiAxMC4wMzE0NDExIj48L3BvbHlsaW5lPgogICAgICAgICAgICAgICAgICAgIDxsaW5lIHgxPSI2LjQyMzYyNjQ0IiB5MT0iMTAuMDY5OTQ4OSIgeDI9Ii0yLjIyMDQ0NjA1ZS0xNSIgeTI9IjQuNjIzNjIwMDciIGlkPSLot6/lvoQtMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48L2xpbmU+CiAgICAgICAgICAgICAgICAgICAgPGxpbmUgeDE9IjEuNzMxOTQ3OTJlLTE0IiB5MT0iMTUuNjA0OTk2NCIgeDI9IjYuMzkxMzA0MzUiIHkyPSIxMC4wNjk5NDg5IiBpZD0i6Lev5b6ELTQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+PC9saW5lPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=");
+    }
+
+    &.connect-error {
+      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+5qCH5YeG5o6n5Yi26Z2i5p2/L+iTneeJmWljb24zPC90aXRsZT4KICAgIDxnIGlkPSLmoIflh4bmjqfliLbpnaLmnb8v6JOd54mZaWNvbjMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSLnvJbnu4QtMiIgc3Ryb2tlPSIjRkE1MTUxIiBzdHJva2Utd2lkdGg9IjIiPgogICAgICAgICAgICA8ZyBpZD0i6JOd54mZIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LjAwMDAwMCwgMi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxwb2x5bGluZSBpZD0i6Lev5b6ELTIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHBvaW50cz0iNiAxMC4wMjg3NjYxIDEyLjM2MDA0MTEgNS40ODkyMzkyNCA2IDAgNiAyMC4xMTA0NzM2IDEyLjM2MDA0MTEgMTUuNTA5NzAxOSA2IDEwLjAzMTQ0MTEiPjwvcG9seWxpbmU+CiAgICAgICAgICAgICAgICA8bGluZSB4MT0iNi40MjM2MjY0NCIgeTE9IjEwLjA2OTk0ODkiIHgyPSItMi4yMjA0NDYwNWUtMTUiIHkyPSI0LjYyMzYyMDA3IiBpZD0i6Lev5b6ELTMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+PC9saW5lPgogICAgICAgICAgICAgICAgPGxpbmUgeDE9IjEuNzMxOTQ3OTJlLTE0IiB5MT0iMTUuNjA0OTk2NCIgeDI9IjYuMzkxMzA0MzUiIHkyPSIxMC4wNjk5NDg5IiBpZD0i6Lev5b6ELTQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+PC9saW5lPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=");
+      background-size: 13px 13px;
+      background-position: 4px 3px;
+    }
+  }
+
+  .device-status-text {
+    .text {
+      font-size: 14px;
+      line-height: 44px;
+    }
+  }
+
+  .device-action {
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    height: 24px;
+
+    .device-action-link {
+      border: 1px solid #0066ff;
+      width: 100%;
+
+      .link {
+        color: #0066ff!important;
+        padding: 5px;
+      }
+    }
+
+    .device-action-text {
+      border-radius: 12px;
+      text-align: center;
+      height: 22px;
+
+      .text {
+        font-size: 12px;
+        vertical-align: middle;
+        line-height: 22px;
+        display: inline;
+        letter-spacing: 0;
+        color: #fff;
+      }
+    }
+
+    .device-action-btn {
+      border: 1px solid #fff;
+      width: 52px;
+    }
+
+    .device-action-connecting {
+      width: 24px;
+    }
+  }
+
+  .blue-tooth-icon,
+  .device-status-text {
+    vertical-align: middle;
+    width: 60%;
+    max-height: 100%;
+    overflow-y: auto;
+  }
+}

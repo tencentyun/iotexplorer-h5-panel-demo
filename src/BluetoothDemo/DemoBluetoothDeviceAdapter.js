@@ -5,7 +5,7 @@ export function isValidBodyTemperature(temperature) {
 }
 
 export class DemoBluetoothDeviceAdapter extends DeviceAdapter {
-	static serviceId = '0000FFF0-0000-1033-8000-00805F9B34FB';
+	static serviceId = '0000FFF0-0000-1000-8000-00805F9B34FB';
 
 	// 在搜索时告诉蓝牙适配器哪些设备是我这类型的设备，并在除deviceInfo之外返回唯一标识deviceName和serviceId
 	static deviceFilter(deviceInfo) {

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import './SearchPage.less';
 
-const { blueToothAdapter } = sdk;
+const { blueToothAdapter, familyId, productId, roomId } = sdk;
 
 function reducer(state, action) {
 	const { type, payload } = action;
@@ -95,7 +95,6 @@ export function SearchPage() {
 		dispatch({ type: 'startSearch' });
 
 		try {
-			await blueToothAdapter.init();
 			await blueToothAdapter.startSearch({
 				onError: err => {
 					console.error('search on error', err);
@@ -114,16 +113,26 @@ export function SearchPage() {
 	const doConnect = async (deviceInfo) => {
 		try {
 			dispatch({ type: 'startConnect' });
+			const {
+				mac
+			} = deviceInfo;
 
 			const deviceAdapter = await blueToothAdapter.connectDevice({
 				...deviceInfo,
+				deviceName: mac,
 				productId: sdk.productId,
 			});
 
 			console.log('连接成功！');
 
+			// 先写死吧，后面可以从链接上取
+			// const roomId = 'r_25b2a01c4d4740149b54212a05007bca';
+
 			// 需要绑定后才可操作
-			await deviceAdapter.bindDevice();
+			await deviceAdapter.bindDevice({
+				familyId,
+				roomId,
+			});
 
 			console.log('绑定成功！');
 
