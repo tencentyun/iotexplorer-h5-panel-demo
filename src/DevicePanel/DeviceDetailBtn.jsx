@@ -1,10 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
 import { RawBtn } from '../components/Btn';
 
 import './DeviceDetailBtn.less';
 
 export function DeviceDetailBtn() {
+  const history = useHistory();
   const showDeviceDetail = async () => {
     const isConfirm = await sdk.tips.confirm('是否展示H5设备详情？');
 
@@ -37,6 +39,13 @@ export function DeviceDetailBtn() {
             onClick: async () => {
               const shareParams = await sdk.getShareParams();
               console.log('自定义分享参数: ', shareParams);
+            }
+          },
+          {
+            text: '文件资源管理',
+            onClick: () => {
+              sdk.hideDeviceDetail()
+              history.push('/addfile')
             }
           },
           {
