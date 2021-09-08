@@ -28,3 +28,7 @@ declare interface TemplatePropertyConfig {
   };
   required?: boolean;
 }
+
+interface window {
+  h5PanelSdk: any;
+} 

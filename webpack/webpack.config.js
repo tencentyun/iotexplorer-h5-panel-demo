@@ -12,9 +12,11 @@ class ModifiedMiniCssExtractPlugin extends MiniCssExtractPlugin {
 
 module.exports = (env, argv) => {
   const { mode } = env;
+  const { demo } = argv;
+  console.log(`正在打开${demo || ''}`);
 
   const isDevMode = mode === 'development';
-  const srcPath = path.join(__dirname, '../src');
+  const srcPath = path.join(__dirname, `../src/${demo || ''}`);
   const distPath = path.join(__dirname, '../dist', isDevMode ? '/debug' : '/release');
 
   // 当 JS 文件大小超过 2MB 限制时，可置为 true 开启 webpack 的代码拆分

@@ -9,9 +9,11 @@
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
     "classnames": "^2.2.6",
+    "debug": "^4.3.2",
     "install": "^0.13.0",
     "moment": "^2.29.1",
     "npm": "^6.14.2",
+    "qcloud-iotexplorer-appdev-plugin-wificonf-blecombo": "^1.2.2-beta.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-rangeslider": "^2.2.0",
@@ -21,7 +23,11 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --config webpack/webpack.config.js --env.mode=development --watch",
-    "release": "webpack --config webpack/webpack.config.js --env.mode=production"
+    "release": "webpack --config webpack/webpack.config.js --env.mode=production",
+    "dev:dualmode": "npm run dev -- --demo=DualmodePanel",
+    "release:dualmode": "npm run release -- --demo=DualmodePanel",
+    "dev:wugan": "npm run dev -- --demo=NonInductiveDemo",
+    "release:wugan": "npm run release -- --demo=NonInductiveDemo"
   },
   "eslintConfig": {
     "extends": "react-app"
