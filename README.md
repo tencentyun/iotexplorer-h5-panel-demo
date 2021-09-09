@@ -1,5 +1,14 @@
-# iotexplorer-h5-panel
-腾讯连连自定义H5面板开发文档
+# iotexplorer-h5-panel-demo
+腾讯连连自定义H5面板开发demo
+
+## 命令介绍
+
+```bash
+npm run dev:dualmode # 开发双路通信面板
+npm run dev:wugan # 开发无感通信面板
+npm run dev # 开发默认面板
+```
+如果打包某个面板，只需要将`dev`改为`release`即可
 
 ## Quick Start
 

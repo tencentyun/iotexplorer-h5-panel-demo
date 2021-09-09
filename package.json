@@ -13,7 +13,7 @@
     "install": "^0.13.0",
     "moment": "^2.29.1",
     "npm": "^6.14.2",
-    "qcloud-iotexplorer-appdev-plugin-wificonf-blecombo": "^1.2.2-beta.1",
+    "qcloud-iotexplorer-appdev-plugin-wificonf-blecombo": "^1.2.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-rangeslider": "^2.2.0",
