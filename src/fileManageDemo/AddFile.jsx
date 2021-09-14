@@ -4,7 +4,7 @@ import './FileManage.less';
 import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
 import { ResourceNameContext } from '../app';
 import './AddFile.less';
-import { FileSdkForH5 } from 'tencentcloud-file-resource-sdk';
+import { FileSdkForH5 } from 'qcloud-iotexplorer-fileresource-sdk';
 const fileSdk = new FileSdkForH5(sdk);
 
 
