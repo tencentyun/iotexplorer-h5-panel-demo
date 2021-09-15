@@ -1,5 +1,7 @@
-# iotexplorer-h5-panel
-腾讯连连自定义H5面板开发文档
+# iotexplorer-h5-panel-demo
+腾讯连连自定义H5面板Demo
+
+关于H5面板的详细原理及开发流程，请参考[官网文档](https://cloud.tencent.com/document/product/1081/49028).
 
 ## Quick Start
 
