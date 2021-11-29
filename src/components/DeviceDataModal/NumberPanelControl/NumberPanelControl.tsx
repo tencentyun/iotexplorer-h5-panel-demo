@@ -1,10 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, {useState, useMemo, ChangeEvent} from 'react';
 import { noop } from '../../../utils';
 import { Modal } from '../../Modal';
 import { RawBtn, BtnOptions } from '../../Btn';
 
-import Slider from 'react-rangeslider';
-import 'react-rangeslider/lib/index.css'
 import './NumberPanelControl.less';
 
 enum BtnType {
@@ -25,15 +23,15 @@ export interface NumberPanelControlProps {
 }
 
 export function NumberPanelControl({
-  visible,
-  templateConfig,
-  value: outerValue,
-  onChange = noop,
-  onClose = noop,
-  showBackBtn,
-  confirmText = '确定',
-  cancelText = '取消',
-  cancelBtnType,
+   visible,
+   templateConfig,
+   value: outerValue,
+   onChange = noop,
+   onClose = noop,
+   showBackBtn,
+   confirmText = '确定',
+   cancelText = '取消',
+   cancelBtnType,
 }: NumberPanelControlProps) {
   const {
     name,
@@ -87,7 +85,9 @@ export function NumberPanelControl({
     }
   };
 
-  const onSliderChange = (orgValue: number) => {
+  const onSliderChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const orgValue = parseFloat(event.target.value);
+
     if (type === 'float') {
       const value = orgValue.toFixed(3);
       setValue(+value);
@@ -125,13 +125,13 @@ export function NumberPanelControl({
                 {value}{unit}
               </div>
             </div>
-            <Slider
-              tooltip={false}
+            <input
               min={min}
               max={max}
               step={step}
               value={value}
               onChange={onSliderChange}
+              type="range"
             />
           </div>
 
