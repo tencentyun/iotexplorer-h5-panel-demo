@@ -7,7 +7,7 @@ import {
 	Link
 } from "react-router-dom";
 import { DevicePanel } from './DevicePanel';
-import { SearchPage, PanelPage } from './StandardBleDemo';
+import { SearchPage } from './StandardBleDemo';
 import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
 import { AddFile, ErrorPage, FileManage } from './fileManageDemo';
 //sdk.blueToothAdapter.addAdapter(DemoBluetoothDeviceAdapter);
@@ -27,8 +27,10 @@ function App() {
 	if (isBluetoothDevice && isDev) {
 		basename += '/live';
 	}
+	const [sdkReady, setSdkReady] = useState(false);
 
   useEffect(() => {
+		sdk.sdkReady().then(() =>  setSdkReady(true));
     sdk.on('appShow', () => console.log('appShow'))
       .on('appHide', () => console.log('appHide'))
       .on('pageShow', () => console.log('pageShow'))
@@ -38,6 +40,7 @@ function App() {
     ResourceName: '',
     upDateResourceName: (Resource) => handleUpdateResource(Resource)
   });
+
   const handleUpdateResource = (Resource) => {
     setResourceInfo({
       ResourceName: Resource,
@@ -45,7 +48,7 @@ function App() {
     })
   }
   return (
-    
+    !sdkReady ? <div > loading...</div >  : (
     <ResourceNameContext.Provider value={ResourceInfo}>
     <Router basename={basename}>
       <div>
@@ -70,7 +73,7 @@ function App() {
       </div>
     </Router>
     </ResourceNameContext.Provider>
-  )
+  ))
 }
 
 ReactDOM.render(<App/>, document.getElementById('app'));
