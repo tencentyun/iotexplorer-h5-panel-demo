@@ -46,8 +46,9 @@ module.exports = (env, argv) => {
       compress: true,
       port: 9000,
       disableHostCheck: true, //  新增该配置项
+      headers: {'Access-Control-Allow-Origin': '*'},
       // hot: true,
-      https: true,
+      https: false,
     },
     module: {
       // 现在的 babel 配置已经很简单了，我们只需要加入默认的配置即可
