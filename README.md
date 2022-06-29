@@ -24,7 +24,6 @@ npm run dev # 开发默认面板
 ```
 
 如果打包某个面板，只需要将`dev`改为`release` 即可
-腾讯连连自定义H5面板Demo
 
 关于H5面板的详细原理及开发、调试流程，请参考[官网文档](https://cloud.tencent.com/document/product/1081/49028#h5-.E9.9D.A2.E6.9D.BF.E5.BC.80.E5.8F.91).
 
@@ -56,7 +55,7 @@ developing.style/developing.css https://127.0.0.1:9000/index.css
 # https://iot.cloud.tencent.com:9000 https://127.0.0.1:9000 # 用于支持HMR 可以不用
 ```
 
-1、wistle 导入https证书通过中间人方式解决https 抓包问题。
+1、whistle 导入https证书通过中间人方式解决https 抓包问题。
 [解决方法](https://jingyan.baidu.com/article/c843ea0bc4142a77921e4a79.html)
 
 2、chorme 抓取https包提示不是私密链接的问题
