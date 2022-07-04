@@ -1,13 +1,23 @@
 .row {
   display: flex;
-  margin: 12px -6px;
+  margin: 0 -6px;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: stretch;
+  padding-bottom: 12px;
 
   .explorer-h5-col__content {
     height: 100%;
   }
+}
+
+.row .row {
+  padding-bottom: 0px;
+}
+
+.row .row .row {
+  padding-top: 12px;
+
 }
 
 .col {

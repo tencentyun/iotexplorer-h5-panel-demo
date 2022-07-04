@@ -2,6 +2,12 @@ import React, {useState, useMemo, ChangeEvent} from 'react';
 import { noop } from '../../../utils';
 import { Modal } from '../../Modal';
 import { RawBtn, BtnOptions } from '../../Btn';
+import {
+  DataTemplatePropertyFloat,
+  DataTemplatePropertyInt,
+  TemplateSpecFloat,
+  TemplateSpecInt,
+} from '../../../dataTemplate';
 
 import './NumberPanelControl.less';
 
@@ -12,7 +18,11 @@ enum BtnType {
 
 export interface NumberPanelControlProps {
   visible: boolean;
-  templateConfig: TemplatePropertyConfig;
+  name: string;
+  define: DataTemplatePropertyInt['define']
+    | DataTemplatePropertyFloat['define']
+    | TemplateSpecInt['dataType']
+    | TemplateSpecFloat['dataType'];
   value: number;
   onChange?: (value: number) => void;
   onClose?: () => void;
@@ -24,7 +34,8 @@ export interface NumberPanelControlProps {
 
 export function NumberPanelControl({
    visible,
-   templateConfig,
+   name,
+   define,
    value: outerValue,
    onChange = noop,
    onClose = noop,
@@ -34,16 +45,13 @@ export function NumberPanelControl({
    cancelBtnType,
 }: NumberPanelControlProps) {
   const {
-    name,
-    define: {
-      type = '',
-      start: _start = 0,
-      step: _step = 0,
-      max: _max = 0,
-      min: _min = 0,
-      unit = '',
-    } = {},
-  } = templateConfig || {};
+    type = '',
+    start: _start = 0,
+    step: _step = 0,
+    max: _max = 0,
+    min: _min = 0,
+    unit = '',
+  } = define;
 
   const min = +_min;
   const max = +_max;

@@ -4,38 +4,48 @@ import classNames from 'classnames';
 import { noop } from '../../../utils';
 import { Modal } from '../../Modal';
 import { Hoverable } from '../../Hoverable';
+import {
+  DataTemplatePropertyStringEnum,
+  DataTemplatePropertyEnum,
+  TemplateSpecEnum,
+  TemplateSpecStringEnum,
+} from '../../../dataTemplate';
 import './EnumPanelControl.less';
 
 export interface EnumPanelControlProps {
   visible: boolean;
-  templateConfig: TemplatePropertyConfig;
-  value: number;
-  onChange?: (value: number) => void;
+  name: string;
+  define: DataTemplatePropertyEnum['define']
+    | DataTemplatePropertyStringEnum['define']
+    | TemplateSpecEnum['dataType']
+    | TemplateSpecStringEnum['dataType'];
+  value: number | string;
+  onChange?: (value: number | string) => void;
   onClose?: () => void;
+  valueType: 'stringenum' | 'enum';
 }
 
 export function EnumPanelControl({
   visible,
-  templateConfig,
+  name,
+  define,
   value,
   onChange = noop,
   onClose = noop,
+  valueType,
 }: EnumPanelControlProps) {
   const {
-    name,
-    define: {
-      mapping = {} as any,
-    } = {},
-  } = templateConfig || {};
+    mapping = {},
+  } = define || {};
 
   const enumOptions = Object.keys(mapping).map((key) => ({
     text: mapping[key],
-    value: +key,
+    value: valueType === 'enum' ? +key : String(key),
   }));
 
-  const [localValue, setLocalValue] = useState(+value);
+  const [localValue, setLocalValue] = useState(valueType === 'enum' ? +value : String(value));
 
-  return Boolean(visible) && (
+  return visible ? (
     <Modal
       className="enum-modal"
       visible={true}
@@ -79,5 +89,5 @@ export function EnumPanelControl({
         />
       </Modal.Footer>
     </Modal>
-  );
+  ) : null;
 }

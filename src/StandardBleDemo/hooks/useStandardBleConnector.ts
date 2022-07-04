@@ -3,11 +3,11 @@ import sdk, { blueToothAdapter, StandardDeviceAdapter, ERROR_MESSAGES } from 'qc
 
 const REPORT_EVENT_TYPE = 'STANDARD_BLE';
 
-export const StandardBleConnectStatus = {
-  DISCONNECTED: 'disconnected',
-  CONNECTING: 'connecting',
-  CONNECTED: 'connected',
-  ERROR: 'connect-error',
+export enum StandardBleConnectStatus {
+  DISCONNECTED = 'disconnected',
+  CONNECTING = 'connecting',
+  CONNECTED ='connected',
+  ERROR = 'connect-error',
 };
 
 export const StandardBleConnectStatusStr = {
@@ -17,7 +17,7 @@ export const StandardBleConnectStatusStr = {
   [StandardBleConnectStatus.ERROR]: '无法连接蓝牙设备',
 };
 
-export const getStandardBleConnectStatusInfo = (connectStatus = StandardBleConnectStatus.DISCONNECTED, msg) => {
+export const getStandardBleConnectStatusInfo = (connectStatus = StandardBleConnectStatus.DISCONNECTED, msg = '') => {
   if (!StandardBleConnectStatusStr[connectStatus]) {
     connectStatus = StandardBleConnectStatus.DISCONNECTED;
   }
@@ -28,13 +28,20 @@ export const getStandardBleConnectStatusInfo = (connectStatus = StandardBleConne
   };
 };
 
+const isDeviceReady = (deviceAdapter: any) => deviceAdapter
+  && deviceAdapter.isConnected
+  && deviceAdapter.authorized;
+
 export const useStandardBleConnector = ({
   deviceId,
   familyId = '',
+}: {
+  deviceId: string;
+  familyId?: string;
 }) => {
   const { deviceInfo, productInfo } = sdk;
 
-  const deviceAdapterRef = useRef(null);
+  const deviceAdapterRef = useRef<any>(null);
   const [connectStatusInfo, setConnectStatusInfo] = useState(getStandardBleConnectStatusInfo());
 
   const getDeviceAdapter = () => {
@@ -49,13 +56,7 @@ export const useStandardBleConnector = ({
     return deviceAdapter;
   };
 
-  const isDeviceReady = (deviceAdapter) => {
-    deviceAdapter = deviceAdapter || deviceAdapterRef.current;
-
-    return deviceAdapter && deviceAdapter.isConnected && deviceAdapter.authorized;
-  };
-
-  const updateDeviceConnectStatusInfo = (connectStatus, msg = '') => {
+  const updateDeviceConnectStatusInfo = (connectStatus: StandardBleConnectStatus, msg = '') => {
     setConnectStatusInfo(getStandardBleConnectStatusInfo(connectStatus, msg));
   };
 
@@ -71,12 +72,12 @@ export const useStandardBleConnector = ({
     updateDeviceConnectStatusInfo(StandardBleConnectStatus.DISCONNECTED);
   });
 
-  const checkDeviceAdapter = async () => {
+  const checkDeviceAdapter = (deviceAdapter: any): deviceAdapter is any => {
     try {
-      const deviceReady = isDeviceReady();
+      const deviceReady = isDeviceReady(deviceAdapter);
 
       if (!deviceReady) {
-        await sdk.tips.showInfo('请先连接至蓝牙设备');
+        sdk.tips.showInfo('请先连接至蓝牙设备');
         return false;
       }
       return true;
@@ -86,14 +87,20 @@ export const useStandardBleConnector = ({
     }
   };
 
-  const controlDevice = async ({ deviceData }) => {
-    if (!await checkDeviceAdapter()) return;
-    await deviceAdapterRef.current.controlDevice({ deviceData });
+  const controlDevice = async ({ deviceData }: {
+    deviceData: any;
+  }) => {
+    const deviceAdapter = deviceAdapterRef.current;
+    if (!checkDeviceAdapter(deviceAdapter)) return;
+    await deviceAdapter.controlDevice({ deviceData });
   };
 
-  const controlAction = async ({ actionData }) => {
-    if (!await checkDeviceAdapter()) return;
-    await deviceAdapterRef.current.controlAction({ actionData });
+  const controlAction = async ({ actionData }: {
+    actionData: any;
+  }) => {
+    const deviceAdapter = deviceAdapterRef.current;
+    if (!checkDeviceAdapter(deviceAdapter)) return;
+    await deviceAdapter.controlAction({ actionData });
   };
 
   const connectDevice = async () => {
@@ -157,11 +164,12 @@ export const useStandardBleConnector = ({
       updateDeviceConnectStatusInfo(StandardBleConnectStatus.CONNECTED);
     } catch (err) {
       console.error(err);
-      if (err) {
-        updateDeviceConnectStatusInfo(StandardBleConnectStatus.ERROR, err.errCode || err.msg ? err.msg : '');
+      if (err && typeof err === 'object') {
+        const errObj = <Record<string, unknown>>err;
+        updateDeviceConnectStatusInfo(StandardBleConnectStatus.ERROR, errObj.msg ? String(errObj.msg) : '');
 
         sdk.insightReportor.error(REPORT_EVENT_TYPE, {
-          message: ERROR_MESSAGES[err.code] || ERROR_MESSAGES.CONNECT_DEVICE_ERROR,
+          message: ERROR_MESSAGES[String(errObj.code)] || ERROR_MESSAGES.CONNECT_DEVICE_ERROR,
           error: err,
           data: {
             error: err,
@@ -172,7 +180,8 @@ export const useStandardBleConnector = ({
   };
 
   const deleteDevice = async () => {
-    if (!isDeviceReady()) {
+    const deviceAdapter = deviceAdapterRef.current;
+    if (!isDeviceReady(deviceAdapter)) {
       const isConfirm = confirm('确定要删除这个设备吗？当前设备未连接,删除后如需重新绑定需要初始化蓝牙设备。');
 
       if (!isConfirm) {
@@ -188,8 +197,7 @@ export const useStandardBleConnector = ({
     if (!familyId) return Promise.reject('无家庭信息，无法删除');
 
     try {
-      // @ts-ignore
-      await deviceAdapterRef.current.unbindDevice({
+      await deviceAdapter.unbindDevice({
         familyId,
         deviceName: deviceInfo.DeviceName,
       });
@@ -231,5 +239,5 @@ export const useStandardBleConnector = ({
       disconnectDevice,
       controlAction,
     },
-  ];
+  ] as const;
 };

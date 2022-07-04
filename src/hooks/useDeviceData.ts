@@ -1,10 +1,11 @@
 import { useReducer } from 'react';
+import { DataTemplateProperty, normalizeDataByTemplate } from '../dataTemplate';
 
 interface DeviceDataState {
-  deviceData: object;
-  deviceStatus: 0 | 1;
-  templateMap: object;
-  templateList: TemplatePropertyConfig[];
+  deviceData: Record<string, unknown>;
+  deviceStatus: number;
+  propertyMap: Record<string, DataTemplateProperty>;
+  propertyList: DataTemplateProperty[];
 }
 
 function reducer(state: DeviceDataState, action: {
@@ -15,7 +16,7 @@ function reducer(state: DeviceDataState, action: {
 
   switch (type) {
     case 'data': {
-      const deviceData: any = state.deviceData;
+      const deviceData = state.deviceData;
 
       Object.keys(payload || {}).forEach((key) => {
         deviceData[key] = payload[key].Value;
@@ -37,47 +38,43 @@ function reducer(state: DeviceDataState, action: {
 }
 
 function initState(sdk: any) {
-  const templateMap: any = {};
+  const propertyMap = <Record<string, DataTemplateProperty>>{};
+  const propertyList = <DataTemplateProperty[]>sdk.dataTemplate.properties;
 
-  // 过滤掉 string 和 timestamp 类型
-  const templateList = sdk.dataTemplate.properties
-    .filter((item: TemplatePropertyConfig) => {
-      if (item.define.type !== 'string' && item.define.type !== 'timestamp') {
-        templateMap[item.id] = item;
-
-        return true;
-      }
-
-      return false;
-    });
+  propertyList.forEach((item: DataTemplateProperty) => {
+    propertyMap[item.id] = item;
+  });
 
   return {
-    templateMap,
-    templateList,
-    deviceData: sdk.deviceData,
-    deviceStatus: sdk.deviceStatus,
+    propertyMap: propertyMap,
+    propertyList: propertyList,
+    deviceData: normalizeDataByTemplate(<Record<string, unknown>>sdk.deviceData, propertyList),
+    deviceStatus: <number>sdk.deviceStatus,
   };
 }
 
 export function useDeviceData(sdk: any) {
   const [state, dispatch] = useReducer(reducer, sdk, initState);
 
-  const onDeviceDataChange = (deviceData: object) => {
+  const onDeviceDataChange = (deviceData: Record<string, { Value: unknown; LastUpdate: number }>) => {
     dispatch({
       type: 'data',
       payload: deviceData,
     });
   };
 
-  const onDeviceStatusChange = (deviceStatus: 0 | 1) => {
+  const onDeviceStatusChange = (deviceStatus: number) => {
     dispatch({
       type: 'status',
       payload: deviceStatus,
     });
   };
 
-  return [state, {
-    onDeviceDataChange,
-    onDeviceStatusChange
-  }];
+  return [
+    state,
+    {
+      onDeviceDataChange,
+      onDeviceStatusChange
+    },
+  ] as const;
 }

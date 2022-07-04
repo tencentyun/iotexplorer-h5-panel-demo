@@ -13,21 +13,8 @@ declare interface StyledProps {
   style?: React.CSSProperties;
 }
 
-declare interface TemplatePropertyConfig {
-  id: string;
-  name: string;
-  mode: string;
-  define: {
-    type: string;
-    mapping?: object;
-    min?: string;
-    max?: string;
-    start?: string;
-    step?: string;
-    unit?: string;
-  };
-  required?: boolean;
-}
+declare module "qcloud-iotexplorer-h5-panel-sdk";
+declare module "react-router-dom";
 
 interface window {
   h5PanelSdk: any;

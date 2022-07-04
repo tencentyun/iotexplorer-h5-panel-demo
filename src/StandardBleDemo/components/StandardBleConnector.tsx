@@ -1,4 +1,4 @@
-import React, { useEffect, forwardRef, useImperativeHandle } from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 import classNames from "classnames";
 import {
 	StandardBleConnectStatus,
@@ -9,7 +9,10 @@ import { Loading } from "../../components/Loading";
 import "./StandardBleConnector.less";
 
 export const StandardBleConnector = forwardRef(
-	({ deviceId, familyId }, ref) => {
+	({ deviceId, familyId }: {
+		deviceId: string;
+		familyId: string;
+	}, ref) => {
 		const [
 			connectStatusInfo,
 			{
@@ -30,7 +33,7 @@ export const StandardBleConnector = forwardRef(
 			disconnectDevice,
 		}));
 
-		const renderLinkBtn = (status) => {
+		const renderLinkBtn = (status: StandardBleConnectStatus) => {
 			switch (status) {
 				case StandardBleConnectStatus.DISCONNECTED: {
 					return (
