@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import sdk from "qcloud-iotexplorer-h5-panel-sdk";
 import { Card } from "../components/Card";
+const sdk = window.h5PanelSdk;
 import { EnumPanelControl, NumberPanelControl } from "../components/DeviceDataModal";
 import { DataTemplateProperty, DataTemplatePropertyBool, DataTemplatePropertyEnum, DataTemplatePropertyFloat, DataTemplatePropertyInt, DataTemplatePropertyStringEnum, TemplateSpecBool, TemplateSpecDefine, TemplateSpecEnum, TemplateSpecFloat, TemplateSpecInt, TemplateSpecStringEnum } from "../dataTemplate";
 import { Col, Row } from "../components/Grid";

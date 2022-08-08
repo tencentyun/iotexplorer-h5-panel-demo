@@ -1,7 +1,7 @@
 import React, { useRef, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import './FileManage.less';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
+const sdk = window.h5PanelSdk;
 import { ResourceNameContext } from '../app';
 import './AddFile.less';
 import { FileSdkForH5 } from 'tencentcloud-file-resource-sdk';

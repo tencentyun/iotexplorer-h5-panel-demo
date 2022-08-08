@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import sdk, { blueToothAdapter, StandardDeviceAdapter, ERROR_MESSAGES } from 'qcloud-iotexplorer-h5-panel-sdk';
 
+const {sdk, blueToothAdapter, StandardDeviceAdapter, ERROR_MESSAGES } = window.h5PanelSdk;
 const REPORT_EVENT_TYPE = 'STANDARD_BLE';
-
 export enum StandardBleConnectStatus {
   DISCONNECTED = 'disconnected',
   CONNECTING = 'connecting',

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk'
 import classNames from 'classnames';
-
+const sdk = window.h5PanelSdk;
 import './SearchPage.less';
 
 const { blueToothAdapter } = sdk;

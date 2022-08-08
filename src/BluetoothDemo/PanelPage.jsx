@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
+const sdk = window.h5PanelSdk;
 
 const { blueToothAdapter } = sdk;
 
 import classNames from 'classnames';
-
-console.log('sdk', sdk);
 
 export function PanelPage() {
 	const deviceAdapterRef = useRef(null);

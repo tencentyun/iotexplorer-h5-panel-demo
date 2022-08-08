@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
 import './FileManage.less';
 import { useHistory } from "react-router-dom";
 
