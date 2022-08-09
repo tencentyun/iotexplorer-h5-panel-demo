@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import { DevicePanel } from './DevicePanel';
 import { SearchPage } from './StandardBleDemo';
-import  {} from "./DevicePanel";
 const sdk = window.h5PanelSdk;
 import { AddFile, ErrorPage, FileManage } from './fileManageDemo';
 import './style.less';
