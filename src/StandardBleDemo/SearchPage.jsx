@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk'
+const sdk = window.h5PanelSdk;
 import classNames from 'classnames';
 
 import './SearchPage.less';

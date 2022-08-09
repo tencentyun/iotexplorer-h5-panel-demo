@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
-import sdk from "qcloud-iotexplorer-h5-panel-sdk";
 import {
   HeadBoolPanel,
   HeadEnumPanel,
   HeadNumberPanel,
 } from "../components/HeadPanels";
+const sdk = window.h5PanelSdk;
 import { useDeviceData } from "../hooks/useDeviceData";
 import { StandardBleConnector } from "../StandardBleDemo/components/StandardBleConnector";
 import { DeviceDetailBtn } from "./DeviceDetailBtn";
 import { PropertyCard } from "./PropertyCard";
 import { DataTemplateProperty } from "../dataTemplate";
 import "./DevicePanel.less";
-
 const windowHeight =
   window.innerHeight || document.documentElement.clientHeight;
 

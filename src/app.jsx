@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { DevicePanel } from './DevicePanel';
 import { SearchPage } from './StandardBleDemo';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
+const sdk = window.h5PanelSdk;
 import { AddFile, ErrorPage, FileManage } from './fileManageDemo';
 import './style.less';
 

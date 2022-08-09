@@ -38,9 +38,6 @@ module.exports = (env, argv) => {
       filename: mode === 'production' ? '[name].[contenthash:8].js' : '[name].js',
       libraryTarget: 'umd'
     },
-    externals: {
-      'qcloud-iotexplorer-h5-panel-sdk': 'h5PanelSdk',
-    },
     devServer: {
       contentBase: distPath,
       compress: true,

@@ -1,10 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
 import { RawBtn } from '../components/Btn';
 
 import './DeviceDetailBtn.less';
-
+const sdk = window.h5PanelSdk;
 export function DeviceDetailBtn() {
   const history = useHistory();
   const showDeviceDetail = async () => {

@@ -4,9 +4,8 @@ import { noop } from '../../utils';
 import { Hoverable } from '../Hoverable';
 import { ConfirmBtnGroup, ConfirmBtnGroupProps } from "../Btn";
 import { useSystemInfo } from "../../hooks/useSystemInfo";
-import sdk from 'qcloud-iotexplorer-h5-panel-sdk';
 import './Modal.less';
-
+const sdk = window.h5PanelSdk;
 export interface ModalProps extends StyledProps {
   visible: boolean;
   title?: string | React.ReactNode;

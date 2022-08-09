@@ -1,5 +1,4 @@
-import { DeviceAdapter } from 'qcloud-iotexplorer-h5-panel-sdk';
-
+const { DeviceAdapter } = window.h5PanelSdk;
 export function isValidBodyTemperature(temperature) {
 	return temperature >= 32 && temperature <= 42;
 }
