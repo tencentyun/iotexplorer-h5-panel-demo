@@ -21,6 +21,7 @@
 npm run dev:dualmode # 开发双路通信面板
 npm run dev:wugan # 开发无感通信面板
 npm run dev # 开发默认面板
+npm run dev:cloud # 开发video面板的云存服务
 ```
 
 如果打包某个面板，只需要将`dev`改为`release` 即可
