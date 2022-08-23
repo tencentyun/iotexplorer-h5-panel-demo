@@ -10,7 +10,7 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 import ReactPlayer from 'react-player';
 
-export default function API() {
+export default function CloudStorage() {
   const {ProductId, DeviceName} = sdk.deviceInfo;
   const [events, setEvents] = useState([]);
   const [dataList, setDataList] = useState([]);
