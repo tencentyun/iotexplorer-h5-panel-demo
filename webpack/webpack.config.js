@@ -47,6 +47,11 @@ module.exports = (env, argv) => {
       // hot: true,
       https: false,
     },
+    externals: {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+      'qcloud-iotexplorer-h5-panel-sdk': 'h5PanelSdk',
+    },
     module: {
       // 现在的 babel 配置已经很简单了，我们只需要加入默认的配置即可
       rules: [
