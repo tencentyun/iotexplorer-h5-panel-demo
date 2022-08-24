@@ -75,9 +75,18 @@ module.exports = (env, argv) => {
                     'useESModules': false,
                   }
                 ],
+                  // antd 按需引入
+                  [
+                    'import',
+                    {
+                      libraryName: 'antd-mobile',
+                      libraryDirectory: 'es/components',
+                      style: 'false',
+                    },
+                  ],
               ]
             },
-          }
+          },
         },
         {
           test: /\.(le|c)ss$/,

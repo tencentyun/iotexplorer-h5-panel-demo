@@ -5,7 +5,7 @@ const sdk = window.h5PanelSdk;
 import './CloudStorage.less'
 import ReactPlayer from 'react-player';
 import { ImageViewer, Picker, Calendar, Popup, Button, Card, TextArea } from 'antd-mobile'
-
+import 'antd-mobile/es/global';
 
 export default function CloudStorage() {
   const {ProductId, DeviceName} = sdk.deviceInfo;
