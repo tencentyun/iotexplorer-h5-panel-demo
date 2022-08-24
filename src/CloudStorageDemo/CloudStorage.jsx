@@ -1,62 +1,29 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import './CloudStorage.less';
-import 'antd/dist/antd.css';
-import {DatePicker} from 'antd';
 import moment from 'moment';
 const sdk = window.h5PanelSdk;
-const { RangePicker } = DatePicker;
+import './CloudStorage.less'
 import ReactPlayer from 'react-player';
-import { ImageViewer } from 'antd-mobile';
-import { Picker, Button} from 'antd-mobile'
+import { ImageViewer, Picker, Calendar, Popup, Button, Card, TextArea } from 'antd-mobile'
+
 
 export default function CloudStorage() {
   const {ProductId, DeviceName} = sdk.deviceInfo;
-  const [events, setEvents] = useState([,,,,,]);
-  const [dataList, setDataList] = useState([]);
+  const [events, setEvents] = useState([]);
   const [videoUrl, setVideoUrl] = useState('');
   const [timeList, setTimeList] = useState([]);
   const [storageTime, setStorageTime] = useState([]);
   const [signedVideoURL, setSignedVideoURL] = useState('');
   const [videoStream, setVideoStream] = useState('');
   const [audioStream, setAudioStream] = useState('');
+  const [eventVisible, setEventVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [visibleData, setVisibleData] = useState(false);
   const [visibleStorage, setVisibleStorage] = useState(false);
+  const [streamVisible, setStreamVisible] = useState(false);
   const [thumbnail, setThumbnail] = useState('');
-  const [value, setValue] = useState();
   const [columns, setColumns] =  useState([]);
   const [list, setList] = useState([]);
-  // const columns = [
-  //   {
-  //     title: 'EventID',
-  //     dataIndex: 'EventID',
-  //     key: 'EventID'
-  //   },
-  //   {
-  //     title: 'StartTime',
-  //     dataIndex: 'StartTime',
-  //     key: 'EventID',
-  //     render: (value, record, index) => <span>{moment(record.StartTime*1000).format('YYYY-MM-DD hh:mm')}</span>
-  //   },
-  //   {
-  //     title: 'EndTime',
-  //     dataIndex: 'EndTime',
-  //     key: 'EventID',
-  //     render: (value, record, index) => <span>{moment(record.EndTime*1000).format('YYYY-MM-DD hh:mm')}</span>
-  //   },
-  //   // {
-  //   //   title: 'Thumbnail',
-  //   //   dataIndex: 'Thumbnail',
-  //   //   key: 'Thumbnail'
-  //   // },
-  //   {
-  //     title: 'Operation',
-  //     dataIndex: 'Operation',
-  //     key: 'EventID',
-  //     render: (value, record, index) => <Button onClick={()=>{iotVideoDescribeCloudStorageThumbnail(record.Thumbnail)}}>缩略图</Button>
-  //   }
-  // ]
 
   useEffect(() => {
     iotVideoDescribeCloudStorageEvents([moment().unix()-(3600*24),moment().unix()])
@@ -64,6 +31,7 @@ export default function CloudStorage() {
   },[]);
 
   const iotVideoDescribeCloudStorageEvents = (dateString) => {
+    console.log(dateString);
     sdk.requestTokenApi('IotVideoDescribeCloudStorageEvents', {
       ProductId,
       DeviceName,
@@ -81,6 +49,7 @@ export default function CloudStorage() {
       setEvents(res.Events);
     })
   }
+
   const iotVideoDescribeCloudStorageDate = () => {
     sdk.requestTokenApi("IotVideoDescribeCloudStorageDate", {
       ProductId,
@@ -128,22 +97,20 @@ export default function CloudStorage() {
       let newTimeList = [];
       let list = []
       timeList.map((item)=>{
-        // console.log("itme",item.StartTime);
-        // console.log("yime", moment(item.StartTime*1000).format('YYYY-MM-DD'));
         let time = moment(item.StartTime*1000).format('YYYY-MM-DD hh:mm')+'~'+moment(item.EndTime*1000).format('YYYY-MM-DD hh:mm');
-        newTimeList.push([{label:time, value:time}]);
+        newTimeList.push({label:time, value:time});
         list.push(time)
       })
       setTimeList(timeList);
-      setStorageTime(newTimeList);
+      setStorageTime([newTimeList]);
       setList(list);
-      console.log(storageTime);
     })
   }
 
   const iotVideoGenerateSignedVideoURL = (value) => {
     console.log("value", value);
     const expireTime =  moment().unix()+3600*24;
+    console.log(expireTime);
     sdk.requestTokenApi("IotVideoGenerateSignedVideoURL", {
       ProductId,
       DeviceName,
@@ -153,145 +120,157 @@ export default function CloudStorage() {
       setSignedVideoURL(res.SignedVideoURL);
     })
   }
-  const onChange = (
-    value,
-    dateString,
-  ) => {
-    // console.log('Selected Time: ', value);
-    // console.log('Formatted Selected Time: ', dateString);
-    let timeArr = [];
-    timeArr.push(moment(dateString[0])/1000);
-    timeArr.push(moment(dateString[1])/1000);
-    iotVideoDescribeCloudStorageEvents(timeArr);
-  };
-
-  const onChangeDate = (value, dateString) => {
-    iotVideoDescribeCloudStorageStreamData(moment(dateString)/1000)
-  } 
   return (
     <div style={{padding:5}}>
       <div style={{textAlign:"center", fontSize:'20px'}}>云存服务</div>
-      <button  onClick={()=>{sdk.goDeviceDetailPage();}}>返回设备详情页</button>
-        <div>
-          <span>请选择时间段：</span>
-          <RangePicker
-          style={{width:"250px"}}
-          showTime={{ format: 'HH' }}
-          format="YYYY-MM-DD"
-          onChange={onChange}
+      <Card>
+        <Button 
+          size='small'
+          onClick={()=>{sdk.goDeviceDetailPage();}}>返回设备详情页</Button>
+        <Button
+          size='small'
+          onClick={() => {
+            setEventVisible(true)
+          }}
+        >
+          请选择云存事件时间段
+        </Button>
+        <Popup
+          visible={eventVisible}
+          onMaskClick={() => {
+            setEventVisible(false)
+          }}
+          bodyStyle={{ height: '40vh' }}
+        >
+          <Calendar
+            className={{}}
+                selectionMode='range'
+                onChange={val => {
+                  let timeArr = [];
+                  val.map((item)=>{
+                    timeArr.push(moment(item).unix());
+                  })
+                  iotVideoDescribeCloudStorageEvents(timeArr);
+                }}
+          />
+        </Popup>
+        <table style={{margin:"5px"}}>
+          <tr>
+            <th>EventID</th>
+            <th>StartTime</th>
+            <th>EndTime</th>
+            <th>Operation</th>
+          </tr>
+            {
+              events.map((item)=>{
+                return <tr>
+                  <td>{item.EventID}</td>
+                  <td>{moment(item.StartTime*1000).format('YYYY-MM-DD hh:mm')}</td>
+                  <td>{moment(item.EndTime*1000).format('YYYY-MM-DD hh:mm')}</td>
+                  <td>
+                  <button
+                    onClick={() => {
+                      setVisible(true);
+                      iotVideoDescribeCloudStorageThumbnail(item.Thumbnail);
+                    }}
+                  >
+                    缩略图
+                  </button>
+                  <ImageViewer
+                    image={thumbnail}
+                    visible={visible}
+                    onClose={() => {
+                      setVisible(false)
+                    }}
+                  />
+                    </td>
+                  </tr>
+              })
+            }
+        </table>
+      </Card>
+      <Card>
+        <Button
+        size='small'
+        onClick={() => {
+          setStreamVisible(true)
+        }}
+      >
+        拉取图片流数据
+      </Button>
+      <Popup
+        visible={streamVisible}
+        onMaskClick={() => {
+          setStreamVisible(false)
+        }}
+        bodyStyle={{ height: '40vh' }}
+      >
+        <Calendar
+          className={{}}
+              selectionMode='single'
+              onChange={val => {
+                console.log(moment(val).unix);
+                iotVideoDescribeCloudStorageStreamData(moment(val).unix());
+              }}
+         />
+      </Popup>
+        <TextArea
+         style={{margin:"5px 0"}}
+          placeholder='AudioStream:'
+          value={audioStream}
+          readOnly
         />
-        </div>
-        {/* <Table
-          // style={{ margin:"0 auto"}}
-          bordered={false} 
-          columns={columns} 
-          dataSource={events}
-          size={"small"}
-          // scroll={{x:true}}
-        /> */}
-      {/* </Card> */}
-      <table style={{margin:"5px"}}>
-        <tr>
-          <th>EventID</th>
-          <th>StartTime</th>
-          <th>EndTime</th>
-          <th>Operation</th>
-        </tr>
-          {
-            events.map((item)=>{
-              return <tr>
-                <td>{item.EventID}</td>
-                <td>{moment(item.StartTime*1000).format('YYYY-MM-DD hh:mm')}</td>
-                <td>{moment(item.EndTime*1000).format('YYYY-MM-DD hh:mm')}</td>
-                <td>
-                <button
-                  onClick={() => {
-                    setVisible(true);
-                    iotVideoDescribeCloudStorageThumbnail(item.Thumbnail);
-                  }}
-                >
-                  缩略图
-                </button>
-                <ImageViewer
-                  image={thumbnail}
-                  visible={visible}
-                  onClose={() => {
-                    setVisible(false)
-                  }}
-                />
-                  </td>
-                </tr>
-            })
-          }
-      </table>
-      <div>
-        <span>拉取图片流数据: </span>
-        <DatePicker showTime={{ format: 'HH' }} onChange={onChangeDate} style={{width:"70%"}}/>
-        <div><span>AudioStream:</span><textarea readOnly rows={3}  style={{width:"75%",verticalAlign: "middle",margin:"3px 0"}} value={audioStream}></textarea></div>
-        <div><span>VideoStream:</span><textarea readOnly style={{width:"75%",verticalAlign: "middle"}} rows={3} value={videoStream}></textarea></div>
-        {/* <Select 
-          defaultValue="请先选择云存的日期" 
-          style={{ width: "100%", margin:"3px 0"}} 
-          onChange={(value)=>{
-            iotVideoDescribeCloudStorageTime(value); 
-          }}>
-          {
-            dataList.map((item, index) => {
-              console.log('1',item);
-              return <Option value={item} key={index}/>
-            })
-          }
-        </Select> */}
-        <button
+        <TextArea
+          placeholder='VideoStream:'
+          value={videoStream}
+          readOnly
+        />
+        <Button
+          size='small'
           onClick={() => {
             setVisibleData(true)
           }}
         >
           请先选择云存的日期
-        </button>
+        </Button>
         <Picker
           columns={columns}
           visible={visibleData}
           onClose={() => {
             setVisibleData(false)
           }}
-          value={value}
           onConfirm={value => {
             iotVideoDescribeCloudStorageTime(value[0]);
           }}
         />
-        <button
+        <Button
+          style={{margin:"5px 0"}}
+          size='small'
           onClick={() => {
             setVisibleStorage(true)
           }}
         >
           请选择云存的时间轴
-        </button>
+        </Button>
         <Picker
           columns={storageTime}
           visible={visibleStorage}
           onClose={() => {
             setVisibleStorage(false)
           }}
-          value={value}
           onConfirm={value => {
             iotVideoGenerateSignedVideoURL(timeList[list.indexOf(value[0])]);
           }}
         />
-        {/* <Select 
-          defaultValue="请选择云存的时间轴" 
-          style={{ width:"100%" }}
-          onChange={(value)=>{
-            iotVideoGenerateSignedVideoURL(timeList[storageTime.indexOf(value)]);
-          }}>
-          {
-            storageTime.map((item,index) => {
-              return <Option value={item} key={index}>{item}</Option>
-            })
-          }
-        </Select> */}
-      </div>
-      <div>
+      <Button 
+        size='small'
+        onClick={()=>{
+        sdk.goDevicePanelPage(sdk.deviceId, {
+          passThroughParams: { fullScreen: true },
+        });
+      }}>p2p云存实时画面</Button>
+      </Card>
+      <Card>
         <ReactPlayer className='react-player'
           url={signedVideoURL}
           playing
@@ -302,7 +281,7 @@ export default function CloudStorage() {
               forceHLS: true,
             }
           }}/>
-      </div>
+      </Card>
     </div>
   )
 }
