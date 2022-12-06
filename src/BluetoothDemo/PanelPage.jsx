@@ -3,8 +3,6 @@ const sdk = window.h5PanelSdk;
 
 const { blueToothAdapter } = sdk;
 
-import classNames from 'classnames';
-
 export function PanelPage() {
 	const deviceAdapterRef = useRef(null);
 	const [deviceConnectInfo, setDeviceConnectInfo] = useState({

@@ -38,6 +38,11 @@ module.exports = (env, argv) => {
       filename: mode === 'production' ? '[name].[contenthash:8].js' : '[name].js',
       libraryTarget: 'umd'
     },
+    externals: {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+      'qcloud-iotexplorer-h5-panel-sdk': 'h5PanelSdk',
+    },
     devServer: {
       contentBase: distPath,
       compress: true,
@@ -110,7 +115,7 @@ module.exports = (env, argv) => {
       // 添加 jsx 后缀支持
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
-    devtool: isDevMode ? 'inline-source-map' : 'inline-nosources-source-map',
+    devtool: isDevMode ? 'inline-source-map' : false,
     optimization: enableCodeSplitting && !isDevMode ?
       {
         splitChunks: {
