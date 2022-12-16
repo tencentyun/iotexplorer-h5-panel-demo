@@ -6,9 +6,8 @@ import {
 } from "../components/HeadPanels";
 const sdk = window.h5PanelSdk;
 import { useDeviceData } from "../hooks/useDeviceData";
-import { StandardBleConnector } from "../StandardBleDemo/components/StandardBleConnector";
-import { DeviceDetailBtn } from "./DeviceDetailBtn";
-import { PropertyCard } from "./PropertyCard";
+import { DeviceDetailBtn } from "../DeviceDetailBtn/DeviceDetailBtn";
+import { PropertyCard } from "../PropertyCard/PropertyCard";
 import { DataTemplateProperty } from "../dataTemplate";
 import "./DevicePanel.less";
 const windowHeight =
@@ -18,8 +17,6 @@ export function DevicePanel() {
   const [state, { onDeviceDataChange, onDeviceStatusChange }] = useDeviceData(
     sdk
   );
-
-  const isStandardBleDevice = sdk.isStandardBleDevice;
 
   // WebSocket 监听
   useEffect(() => {
@@ -179,9 +176,6 @@ export function DevicePanel() {
 
   return (
     <div>
-      {isStandardBleDevice && (
-        <StandardBleConnector familyId={sdk.familyId} deviceId={sdk.deviceId} />
-      )}
       <div
         className="device-panel clear-margin"
         style={{ minHeight: `${windowHeight}px` }}

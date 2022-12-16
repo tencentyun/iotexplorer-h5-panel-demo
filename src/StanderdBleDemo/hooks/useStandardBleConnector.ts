@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-
-const {sdk, blueToothAdapter, StandardDeviceAdapter, ERROR_MESSAGES } = window.h5PanelSdk;
+const sdk = window.h5PanelSdk;
+const { blueToothAdapter, StandardDeviceAdapter, ERROR_MESSAGES } = window.h5PanelSdk;
 const REPORT_EVENT_TYPE = 'STANDARD_BLE';
 export enum StandardBleConnectStatus {
   DISCONNECTED = 'disconnected',

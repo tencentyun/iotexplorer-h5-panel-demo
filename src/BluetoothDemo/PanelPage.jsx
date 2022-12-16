@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { SearchPage } from "./SearchPage";
 const sdk = window.h5PanelSdk;
 
 const { blueToothAdapter } = sdk;
+
+// 用户应该先实现SearchPage，实现设备连接的逻辑
 
 export function PanelPage() {
 	const deviceAdapterRef = useRef(null);
@@ -86,15 +89,17 @@ export function PanelPage() {
 	}, []);
 
 	return (
-		<div className="bluetooth-panel">
-			<div className="device-status-text">
-				<div className="text">{deviceConnectInfo.msg}</div>
-				{deviceConnectInfo.status === 'disconnected' && (
-					<div>
-						<div className="text">，</div>
-						<div className="link" onClick={connectDevice}>点击重试</div>
-					</div>
-				)}
+		<div>
+			<div className="bluetooth-panel">
+				<div className="device-status-text">
+					<div className="text">{deviceConnectInfo.msg}</div>
+					{deviceConnectInfo.status === 'disconnected' && (
+						<div>
+							<div className="text">，</div>
+							<div className="link" onClick={connectDevice}>点击重试</div>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	)

@@ -26,12 +26,18 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack/webpack.config.js --env.mode=development --watch",
     "release": "webpack --config webpack/webpack.config.js --env.mode=production",
+    "dev:ble": "npm run dev -- --demo=BluetoothDemo",
+    "release:ble": "npm run release -- --demo=BluetoothDemo",
+    "dev:standerdBle": "npm run dev -- --demo=StanderdBleDemo",
+    "release:standerdBle": "npm run release -- --demo=StanderdBleDemo",
     "dev:dualmode": "npm run dev -- --demo=DualmodePanel",
     "release:dualmode": "npm run release -- --demo=DualmodePanel",
     "dev:wugan": "npm run dev -- --demo=NonInductiveDemo",
     "release:wugan": "npm run release -- --demo=NonInductiveDemo",
     "dev:cloud": "npm run dev -- --demo=CloudStorageDemo",
-    "release:cloud": "npm run release -- --demo=CloudStorageDemo"
+    "release:cloud": "npm run release -- --demo=CloudStorageDemo",
+    "dev:view": "npm run dev -- --demo=DisplayDemo",
+    "release:view": "npm run dev -- --demo=DisplayDemo"
   },
   "eslintConfig": {
     "extends": "react-app"

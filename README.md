@@ -18,9 +18,11 @@
 - [SwitchyOmega](https://github.com/FelisCatus/SwitchyOmega).
 
 ```bash
+npm run dev # 开发默认面板
+npm run dev:ble # 开发标准蓝牙面板
+npm run dev:standerdBle # 开发自定义蓝牙面板
 npm run dev:dualmode # 开发双路通信面板
 npm run dev:wugan # 开发无感通信面板
-npm run dev # 开发默认面板
 npm run dev:cloud # 开发video面板的云存服务
 npm run dev:view # sdk和小程序部分功能展示，引导用户进行面板开发
 ```
