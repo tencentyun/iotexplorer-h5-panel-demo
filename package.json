@@ -8,20 +8,21 @@
     "@types/node": "^12.12.11",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
+    "antd": "^4.22.6",
+    "antd-mobile": "^5.27.0",
     "classnames": "^2.2.6",
     "debug": "^4.3.2",
+    "hls": "^0.0.1",
     "install": "^0.13.0",
     "moment": "^2.29.1",
     "npm": "^6.14.2",
     "qcloud-iotexplorer-appdev-plugin-wificonf-blecombo": "^1.2.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-player": "^2.10.1",
     "react-router-dom": "^5.1.2",
     "spark-md5": "^3.0.1",
-    "tencentcloud-file-resource-sdk": "^1.1.8",
-    "hls": "^0.0.1",
-    "antd": "^4.22.6",
-    "react-player": "^2.10.1"
+    "tencentcloud-file-resource-sdk": "^1.1.8"
   },
   "scripts": {
     "dev": "webpack-dev-server --config webpack/webpack.config.js --env.mode=development --watch",
@@ -37,7 +38,7 @@
     "dev:cloud": "npm run dev -- --demo=CloudStorageDemo",
     "release:cloud": "npm run release -- --demo=CloudStorageDemo",
     "dev:view": "npm run dev -- --demo=DisplayDemo",
-    "release:view": "npm run dev -- --demo=DisplayDemo"
+    "release:view": "npm run release -- --demo=DisplayDemo"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -76,7 +77,7 @@
     "typescript": "^3.8.3",
     "url-loader": "^4.1.1",
     "webpack": "^4.42.0",
-    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
   }

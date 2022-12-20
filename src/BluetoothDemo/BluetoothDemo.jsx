@@ -1,8 +1,14 @@
 import React, { useEffect, createContext, useState } from 'react';
 import { PanelPage } from './PanelPage';
+import {
+  Route,
+  Switch,
+  MemoryRouter as Router,
+} from 'react-router-dom';
 
 const sdk = window.h5PanelSdk;
 import './style.less';
+import { SearchPage } from './SearchPage';
 
 // 该demo为自定义蓝牙模式，请确保产品的通信方式为'BLE','WIFI-BLE','其他'中的一种
 // 自定义蓝牙需要用户自行开发连接方式

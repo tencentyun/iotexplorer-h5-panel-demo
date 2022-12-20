@@ -17,22 +17,16 @@ export default function PanelDemoDisplay() {
     <Divider>H5面板</Divider>
     <List>
       <List.Item>
-        <Link to='/bluetooth'>蓝牙搜索</Link>
+        <Link to='/ble'>自定义蓝牙</Link>
       </List.Item>
       <List.Item>
-        <Link to='/file'>文件管理</Link>
+        <Link to='/standerdBle'>标准蓝牙</Link>
       </List.Item>
-      {/* <List.Item>
-        <Link to='/addfile'>添加文件</Link>
-      </List.Item>
-      <List.Item>
-        <Link to='/error'>错误提示</Link>
-      </List.Item>
-      <List.Item>
-        <Link to='/cualmodePanel'>双路通信</Link>
-      </List.Item> */}
       <List.Item>
         <Link to='/nonInductive'>无感配网</Link>
+      </List.Item>
+      <List.Item>
+        <Link to='/dualmodePanel'>双路通信</Link>
       </List.Item>
       <List.Item>
         <Link to='/cloudStorage'>云存服务</Link>
