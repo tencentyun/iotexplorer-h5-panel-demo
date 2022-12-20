@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import './FileManage.less';
 const sdk = window.h5PanelSdk;
-import { ResourceNameContext } from '../app';
+import { ResourceNameContext } from '../DevicePanelDemo/DevicePanelDemo';
 import './AddFile.less';
 import { FileSdkForH5 } from 'tencentcloud-file-resource-sdk';
 const fileSdk = new FileSdkForH5(sdk);

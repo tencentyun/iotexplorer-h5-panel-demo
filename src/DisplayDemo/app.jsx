@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavBar, TabBar } from 'antd-mobile'
+import { TabBar } from 'antd-mobile'
 import {
   Route,
   Switch,
@@ -18,13 +18,14 @@ import './index.less'
 import ApiDisplay from './ApiDisplay/ApiDisplay';
 import MiniProgram from './MiniProgram/MiniProgram'
 import ComponentDisplay from './ComponentDisplay/ComponentDisplay'
+import { DevicePanelDemo } from '../DevicePanelDemo/DevicePanelDemo'
+import { StanderdBleDemo } from '../StanderdBleDemo/StanderdBleDemo'
+import { BluetoothDemo } from '../BluetoothDemo/BluetoothDemo'
 import PanelDemoDisplay from './PanelDemoDisplay/PanelDemoDisplay'
+import { DualmodePanel } from '../DualmodePanelDemo/DualmodePanel'
 import { NonInductiveDemo } from '../NonInductiveDemo/NonInductiveDemo'
 import CloudStorage from '../CloudStorageDemo/CloudStorage'
-import { DevicePanel } from '../DevicePanel'
-import { SearchPage } from '../StandardBleDemo'
-import { AddFile, ErrorPage, FileManage } from '../fileManageDemo'
-import { DualmodePanel } from '../DualmodePanel/DualmodePanel'
+
 const Bottom = () => {
   const history = useHistory()
   const location = useLocation()
@@ -85,11 +86,9 @@ function App() {
           <Route exact path='/demo'>
             <PanelDemoDisplay/>
           </Route>
-          <Route exact path='/device' component={DevicePanel}/>
-          <Route exact path='/bluetooth' component={SearchPage}/>
-          <Route exact path='/file' component={FileManage}/>
-          <Route exact path='/error' component={ErrorPage}/>
-          <Route exact path='/addFile' component={AddFile}/>
+          <Route exact path='/device' component={DevicePanelDemo}/>
+          <Route exact path='/ble' component={BluetoothDemo}/>
+          <Route exact path='/standerdble' component={StanderdBleDemo}/>
           <Route exact path='/dualmodePanel' component={DualmodePanel}/>
           <Route exact path='/nonInductive' component={NonInductiveDemo}/>
           <Route exact path='/cloudStorage' component={CloudStorage}/>

@@ -13,6 +13,7 @@ export const StandardBleConnector = forwardRef(
 		deviceId: string;
 		familyId: string;
 	}, ref) => {
+		
 		const [
 			connectStatusInfo,
 			{

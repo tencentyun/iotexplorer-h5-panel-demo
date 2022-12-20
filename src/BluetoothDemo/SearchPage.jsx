@@ -4,7 +4,7 @@ const sdk = window.h5PanelSdk;
 import './SearchPage.less';
 
 const { blueToothAdapter } = sdk;
-
+// 用户需要开发自定义蓝牙连接的方式
 function reducer(state, action) {
 	const { type, payload } = action;
 

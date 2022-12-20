@@ -1,31 +1,23 @@
 import React, { useEffect, createContext, useState } from 'react';
-import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from 'react-router-dom';
 import { DevicePanel } from './DevicePanel';
-import { SearchPage } from './StandardBleDemo';
 const sdk = window.h5PanelSdk;
-import { AddFile, ErrorPage, FileManage } from './fileManageDemo';
+import { AddFile, ErrorPage, FileManage } from '../fileManage';
 import './style.less';
 
 export const ResourceNameContext = createContext(null);
-function App() {
-  const isBluetoothDevice = true;
+export function DevicePanelDemo() {
   const isDev = process.env.NODE_ENV !== 'production';
 
   //新旧链接的兼容
   const hasScf = (/\/scf\//).test(location.href)
   let basename = isDev ? `${hasScf ? '/scf' : ''}/h5panel/developing` : `${hasScf ? '/scf' : ''}/h5panel`;
   console.log('----basename----', basename);
-
-  // 蓝牙的调试模式下路由需要加上 /live
-  if (isBluetoothDevice && isDev) {
-    basename += '/live';
-  }
-
+  
   const [sdkReady, setSdkReady] = useState(false);
 
   useEffect(() => {
@@ -54,8 +46,8 @@ function App() {
         <Router basename={basename}>
           <div>
             <Switch>
-              <Route path='/bluetooth-search'>
-                <SearchPage />
+              <Route path='/'>
+                <DevicePanel />
               </Route>
               <Route path='/file-manage'>
                 <FileManage />
@@ -66,9 +58,6 @@ function App() {
               <Route path='/error'>
                 <ErrorPage />
               </Route>
-              <Route path='/'>
-                <DevicePanel />
-              </Route>
             </Switch>
           </div>
         </Router>
@@ -76,4 +65,3 @@ function App() {
     );
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
