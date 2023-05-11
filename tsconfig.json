@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "types": ["qcloud-iotexplorer-h5-panel-sdk-type"],
     "lib": [
       "dom",
       "dom.iterable",
