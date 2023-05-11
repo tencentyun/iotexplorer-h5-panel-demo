@@ -15,6 +15,3 @@ declare interface StyledProps {
 
 declare module "qcloud-iotexplorer-h5-panel-sdk";
 declare module "react-router-dom";
-interface Window {
-  h5PanelSdk: any;
-} 
