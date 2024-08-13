@@ -15,7 +15,7 @@
     "hls": "^0.0.1",
     "install": "^0.13.0",
     "moment": "^2.29.1",
-    "npm": "^6.14.2",
+    "npm": "^10.8.2",
     "qcloud-iotexplorer-appdev-plugin-wificonf-blecombo": "^1.2.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
