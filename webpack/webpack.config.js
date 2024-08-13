@@ -75,6 +75,7 @@ module.exports = (env, argv) => {
                     'useESModules': false,
                   }
                 ],
+                '@babel/plugin-proposal-optional-chaining',
               ]
             },
           }
